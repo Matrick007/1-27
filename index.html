@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Голосование 2027</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="particles"></div>
+    <div class="glow-effect"></div>
+    <div class="portrait-decor" aria-hidden="true">
+        <img class="portrait p1" src="photo/Литнарович.jpg" alt="">
+        <img class="portrait p2" src="photo/Лукин.jpg" alt="">
+        <img class="portrait p3" src="photo/Эльчин.jpg" alt="">
+        <img class="portrait p4" src="photo/Куликов.jpg" alt="">
+        <img class="portrait p5" src="photo/Галкин.jpg" alt="">
+        <span class="oscar o1">★</span><span class="oscar o2">★</span><span class="oscar o3">★</span><span class="oscar o4">★</span><span class="oscar o5">★</span>
+    </div>
+
+    <audio id="clickSound" preload="auto">
+        <source src="" type="audio/mp3">
+    </audio>
+    <audio id="transitionSound" preload="auto">
+        <source src="" type="audio/mp3">
+    </audio>
+    <audio id="backgroundMusic" preload="auto" loop></audio>
+
+    <div class="container">
+        <button class="menu-button"></button>
+        <div class="menu">
+            <div class="menu-item" data-info="about">О приложении</div>
+            <div class="menu-item" data-info="rules">Правила</div>
+        </div>
+        <div class="info-panel">
+            <p id="info-text"></p>
+            <button class="close-info">Закрыть</button>
+        </div>
+
+        <div class="music-modal" id="musicModal" style="display: none;">
+            <div class="music-modal-content">
+                <h2>Выберите фоновую мелодию</h2>
+ 
+                <div class="track-option" data-track="">Пока выбери это</div>
+            </div>
+        </div>
+
+        <div class="music-control" id="musicControl" style="display: none;">
+            <button class="music-control-button" id="musicControlButton"></button>
+            <div class="music-control-menu" id="musicControlMenu" style="display: none;">
+                <div class="track-option" data-track="sounds/1.mp3">Королева</div>
+                <!--<div class="track-option" data-track=""></div>-->
+                <div class="track-option" data-track="">Стоп</div>
+            </div>
+        </div>
+
+        <div id="tab1" class="tab active">
+            <div class="hero-kicker"><span class="status-dot"></span> ПРЕМИЯ • ВЫБОР СООБЩЕСТВА</div>
+            <div class="hero-year">20<span>27</span></div>
+            <div class="hero-rule"></div>
+            <h1 class="hero-title">ГОЛОСОВАНИЕ</h1>
+            <p class="hero-subtitle">Люди. Истории. Легенды.</p>
+            <p class="hero-copy">Восемь номинаций. Один твой выбор в каждой.<br>Определи, кто заберёт свою статуэтку.</p>
+            <div class="hero-meta"><span>08 НОМИНАЦИЙ</span><span class="meta-separator">/</span><span>ТВОЙ ГОЛОС РЕШАЕТ</span></div>
+            <button class="button hero-button" id="nextButton"><span>Начать голосование</span><span class="button-arrow">↗</span></button>
+            <div class="hero-footnote">ЛИСТАЙ. ВЫБИРАЙ. ОСТАВЬ СЛЕД.</div>
+        </div>
+
+        <div id="tab3" class="tab">
+            <div class="voting-heading">
+                <div><div class="section-eyebrow">ПРЕМИЯ • 2027</div><h1>Твой выбор</h1></div>
+                <div class="step-counter"><span id="currentStep">01</span><i>/</i><span>08</span></div>
+            </div>
+            <div class="progress-track"><span id="progressFill"></span></div>
+            <p class="voting-hint" id="votingHint">Выбери одного номинанта — и перейдём дальше.</p>
+
+            <div class="nomination-frame" data-nomination="Ходящий">
+                <div class="nomination-banner">Ужас</div>
+                <div class="row-title"><center>Самый Ходящий</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee winner" data-nominee="Кирилл" data-row="Ходящий" data-video="videos/candidates/2.mp4">
+                        
+                        <div class="nominee-front">
+                            <img src="photo/литнарович.jpg" alt="Литнарович Кирилл">
+                            <h3>Литнарович Кирилл</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Кирилл — это человек-стабильность. Пока вокруг кипят страсти, меняются дедлайны, горят проекты и кто-то отчаянно пытается закрыть сессию за три дня, Кирилл просто ходит на пары. Все четыре года он был незыблемым элементом университетской экосистемы. Если в аудитории стоит знакомый силуэт, значит, либо началась пара, либо заканчивается перемена. Он не прогуливал. Точнее, он почти не прогуливал. У него была железная причина отсутствовать: болезнь, форс-мажор или всемирный потоп. Но даже если он болел, он был в чате и спрашивал: «Что задали?» — просто чтобы держать руку на пульсе.
+                            Его утро — это ритуал. Неспешный, но четкий. Кофе, дорога, лекция. Он не бежал сломя голову, потому что не опаздывал. Он не сидел в телефоне на первой паре, потому что слушал. Конспекты Кирилла — это отдельный вид искусства. Они не были красивыми, но там было всё. Он писал как стенографист: быстро, внятно и, главное, по делу.
+                            Одногруппники к третьему курсу смирились: Кирилл — совесть группы. Когда кто-то хотел забить на первую пару, ему говорили: «Ну ты как хочешь, а Кирилл уже в аудитории». Он не читал нотаций, не стыдил. Он просто был там. Его присутствие действовало лучше любого куратора. Глядя на его спокойное лицо, даже самый ленивый студент вздыхал и открывал тетрадь.
+                            За четыре года он стал легендой. Не потому что был гением или душой компании (хотя и тем, и другим отчасти тоже), а потому что выдержал этот марафон. Он прошел через скучные лекции, где преподаватель читал с листа, через семинары, где никто не готов, через утренние пары в минус двадцать и вечерние пары, когда мозг уже кипит.
+                            Когда пришло время получать диплом, кто-то пошутил: «Кирилл, ты можешь не приходить на вручение. Ты и так тут уже четыре года без выходных».
+                            Он улыбнулся. Он пришел. Конечно, пришел. Это же Кирилл.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Самсонов" data-row="Ходящий" data-video="videos/candidates/2.mp4">
+                        <div class="nominee-front">
+                            <img src="photo/Самсонов.png" alt="Самсонов Костян">
+                            <h3>Самсонов Константин</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Константин Самсонов — человек-невидимка, который всегда на месте. Все четыре года он ходил на пары с упорством швейцарских часов. Не прогуливал. Почти.
+
+Пока группа решала, идти или не идти, Самсонов уже сидел в аудитории. Молча. С ровной спиной. Тетрадь открыта, ручка наготове. Он не блистал на семинарах, не спорил с преподавателями, не спал на лекциях. Он просто был.
+
+Его присутствие стало фоном. Как стол преподавателя или доска. Никто не удивлялся, что Костя пришел. Удивлялись, когда он не приходил. А он не приходил только по уважительной причине — и всё равно потом спрашивал: «Что задали?»
+
+Четыре года. Без драм. Без прогулов. Без историй. Просто Самсонов. Просто на паре.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Галкин" data-row="Ходящий">
+                        <div class="nominee-front">
+                            <img src="photo/Галкин.jpg" alt="Галкин Виталий">
+                            <h3>Галкин Виталий</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Галкин Виталий — это тот, кто ходил на пары так, будто подписал с расписанием кровный договор. Четыре года. Почти без пропусков.
+
+Он не устраивал драм, не искал отговорок. Пара — значит пара. Утро, зима, дождь, похмелье после чужого дня рождения — неважно. Виталий вставал, шёл и садился на своё место. Обычно сбоку, поближе к окну, чтобы никто не трогал.
+
+На лекциях он не спал. Нет, серьёзно. Даже когда преподаватель читал монотонно и полгруппы уже витала в облаках, Галкин сидел с открытыми глазами. Иногда записывал. Иногда просто смотрел в одну точку. Но был здесь.
+
+Его почти никогда не спрашивали, почему он пришёл. Спрашивали, почему он *не* пришёл — если такое случалось. А случалось редко. И каждый раз это было событием: «Галкина нет? Он заболел? Что-то серьёзное?»
+
+К четвёртому курсу Виталий стал чем-то вроде мебели. Не в плохом смысле. Надёжной, привычной мебели, без которой аудитория выглядела бы пустой. Приходишь — а он уже там. Уходишь — он ещё дописывает. Стабильность в чистом виде.
+
+Диплом он защитил без пафоса. Просто пришёл, ответил, сел. Как и все четыре года.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Караев" data-row="Ходящий">
+                        <div class="nominee-front">
+                            <img src="photo/Эльчин.jpg" alt="Караев Эльчин">
+                            <h3>Караев Эльчин</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Караев Эльчин — это человек с загадочной студенческой биографией. Первые два курса он был образцом посещаемости: ходил всегда, почти без пропусков. Сидел, слушал, записывал. Преподаватели его знали, одногруппники привыкли.
+
+А потом наступил третий курс. И Эльчин исчез. Не совсем — он числился, сдавал, появлялся на сессии. Но на парах его не было. Просто пропал с радаров. Никто толком не понял, что случилось. Может, устал. Может, потерял смысл. Может, нашёл что-то важнее. Он не объяснял.
+
+Год его не было. Тишина. Пустое место в аудитории, к которому все привыкли, но так и не смирились.
+
+А на четвёртом курсе Караев вернулся. Так же неожиданно, как и пропал. Сел на своё место и снова начал ходить. Каждую пару. Почти без пропусков. Как будто третьего курса и не было. Как будто он просто взял паузу — и вернулся.
+
+Никто не спрашивал, почему. А если бы спросили, он бы, наверное, пожал плечами. Потому что некоторые вещи не нуждаются в объяснении. Он просто снова был здесь.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nomination-frame" data-nomination="Прогульщик">
+                <div class="nomination-banner">Больница</div>
+                <div class="row-title"><center>Главный прогульщик</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee" data-nominee="Полякова" data-row="Прогульщик">
+                        <div class="nominee-front">
+                            <img src="photo/Полякова.jpg" alt="Полякова Екатерина">
+                            <h3>Полякова Екатерина</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Четыре года упорного труда — и вот результат: доведенный до автоматизма навык отсутствовать. Награждается за оптимизацию учебного процесса и личный рекорд «Я не приду, но вы держитесь».</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Иванова" data-row="Прогульщик">
+                        <div class="nominee-front">
+                            <img src="photo/Рита.jpg" alt="Иванова Маргарита">
+                            <h3>Иванова Маргарита</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">За выдающиеся способности к самоорганизации вне учебного процесса и умение находить вдохновение там, где нет пар. Рита мастерски доказала: главное — не количество посещённых занятий, а уверенность в том, что ты всё успеешь. Её философия проста и гениальна: «Если меня нет на паре — значит, я занята чем-то важным. Или просто сплю». Награждается за стабильность, харизму и умение появляться именно тогда, когда это действительно нужно.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Берсенев" data-row="Прогульщик">
+                        <div class="nominee-front">
+                            <img src="photo/Берсенев.jpg" alt="Берсенев Илья">
+                            <h3>Берсенев Илья</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Третий курс стал для Ильи годом великих открытий: оказывается, пары существуют и без него. Преподаватели уже начали сомневаться, существует ли он на самом деле, а одногруппники просто привыкли к загадочному отсутствию. Он не избегает учёбы — он её оптимизирует. Меньше пар — больше жизни. Награждается за виртуозное владение искусством «быть в списке, но не в аудитории».</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Ролдугин" data-row="Прогульщик" data-video="videos/candidates/roldugin-progul.mp4">
+                        <div class="nominee-front">
+                            <img src="photo/Ролдугин.jpg" alt="Ролдугин Никита">
+                            <h3>Ролдугин Никита</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">За виртуозное владение искусством «дистанционного присутствия» и твёрдую веру в то, что знания можно получить и без личного визита в аудиторию. Никита довёл до совершенства жанр «академического исчезновения»: его нет на паре, но он всегда в курсе событий. Награждается за спокойствие, харизму и умение появляться ровно в тот момент, когда это действительно важно. Его девиз: «Я не прогулял — я взял паузу».</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nomination-frame" data-nomination="Пара">
+                <div class="nomination-banner">да ты чо</div>
+                <div class="row-title"><center>Номинация победителей</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee" data-nominee="Ролдугин" data-row="Победитель">
+                        <div class="winner-banner">Победитель в номинации "Самый Спокойный" 2024, 2025</div>
+                        <div class="nominee-front">
+                            <img src="photo/Ролдугин.jpg" alt="Ролдугин Никита">
+                            <h3>Ролдугин Никита</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Никита Ролдугин — человек, который уже дважды доказал невозможное. В 2024-м и 2025-м он забирал номинацию «Самый спокойный». Не потому, что громко заявлял о себе. Не потому, что устраивал шоу. А потому, что в мире, где все кричат, спорят и нервничают, он просто… оставался собой. Тихий. Собранный. Непробиваемый. Как скала, которую не трогает даже самый сильный шторм. И именно поэтому сейчас, когда речь идёт о главной номинации — «Победитель», — выбор очевиден. Потому что настоящий победитель — это не тот, кто громче всех орёт «я лучший». Это тот, кто побеждает, не повышая голоса от, кто выигрывает, сохраняя лицо, когда вокруг всё горит. от, кто два года подряд доказывал: спокойствие — это не слабость. Это суперсила. Никита Ролдугин уже дважды показал, что умеет быть выше суеты. Теперь пришло время показать, что он умеет быть выше всех. Он не просто заслуживает эту номинацию. Он её уже забрал. Просто ещё не все это поняли. </div>
+                            
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Литнарович" data-row="Победитель">
+                        <div class="winner-banner">Победитель в номинациях "Тоскик года" 2024,2025; "Воздухан года" 2025; "Канал года" 2025</div>
+                        <div class="nominee-front">
+                            <img src="photo/Литнарович.jpg" alt="Литнарович Кирилл">
+                            <h3>Литнарович Кирилл</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Кирилл Литнарович — человек, который два года подряд был «тоскиком года», в 2025-м стал ещё и «воздуханом» и «каналом года», и именно поэтому он уже давно забрал главную номинацию «Победитель»: потому что только настоящий король может превратить тоску в стиль, воздух — в атмосферу, а канал — в легенду, не повышая голоса и не теряя лица.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Лукин" data-row="Победитель">
+                        <div class="winner-banner">Победитель в номинациях "Оператор года" 2025; "Канал года" 2025</div>
+                        <div class="nominee-front">
+                            <img src="photo/Лукин.jpg" alt="Лукин Александр">
+                            <h3>Лукин Александр</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Александр Лукин.** В 2025-м он стал «Оператором года» и «Каналом года» одновременно. Не потому что громко заявлял о себе, а потому что молча делал то, что другие только обещают. Он ловил кадры, которые остаются в памяти, строил канал, в который хочется возвращаться, и делал это с такой точностью и вкусом, что спорить о главной номинации уже просто бессмысленно. Настоящий победитель — это не тот, кто собирает лайки, а тот, кто создаёт картинку и пространство, без которых всё остальное теряет смысл. Александр Лукин уже доказал: оператор может быть художником, а канал — целым миром. Он не претендует на победу. Он её уже забрал. **Лукин. Победитель. По праву.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Сериков" data-row="Победитель">
+                        <div class="winner-banner">Победитель в номинации "Мем года" 2024, 2025</div>
+                        <div class="nominee-front">
+                            <img src="photo/Тигр.jpg" alt="Сериков Александр">
+                            <h3>Сериков Александр</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Александр Сериков. Два года подряд — «Мем года». 2024-й. 2025-й. Без перерыва. Без конкуренции. Он не просто делал мемы. Он создавал язык, на котором разговаривал весь чат. Пока другие пытались быть смешными, Сериков делал так, что смеялись все — и потом ещё долго цитировали. Именно поэтому сейчас, когда речь идёт о главной номинации — «Победитель», — выбирать уже не из кого. Потому что настоящий победитель — это не тот, кто один раз попал в точку. Это тот, кто два года подряд диктовал правила игры. Тот, кто превращал обычный момент в легенду. Тот, чьи мемы жили дольше любого хайпа. Александр Сериков уже доказал: мем может быть сильнее любого заявления, а юмор — настоящим оружием. Он не просит победу. Он её уже забрал. Просто все ещё смеются над его мемами и забывают, кто на самом деле главный. Сериков. Победитель. По праву.</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nomination-frame" data-nomination="Прорыв">
+                <div class="nomination-banner">Люблю заводик</div>
+                <div class="row-title"><center>Заводчанин года</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee" data-nominee="Берсенев Илья и Сенченко Дмитрий" data-row="Завод">
+                        <div class="nominee-front">
+                            <img src="" alt="Берсенев Илья и Сенченко Дмитрий">
+                            <h3>Берсенев Илья и Сенченко Дмитрий</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description"></div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Голиков Матвей и Сериков Александр" data-row="Завод">
+                        <div class="nominee-front">
+                            <img src="" alt="Голиков Матвей и Сериков Александр">
+                            <h3>Голиков Матвей и Сериков Александр</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description"></div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Лукин Александр и Чертовских Андрей" data-row="Завод">
+                        <div class="nominee-front">
+                            <img src="" alt="Лукин Александр и Чертовских Андрей">
+                            <h3>Лукин Александр и Чертовских Андрей</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description"></div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Куликов Виталий и Сидоров Никита" data-row="Завод">
+                        <div class="nominee-front">
+                            <img src="" alt="Куликов Виталий и Сидоров Никита">
+                            <h3>Куликов Виталий и Сидоров Никита</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description"></div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nomination-frame" data-nomination="Прилежный">
+                <div class="nomination-banner">Кому сегодня?</div>
+                <div class="row-title"><center>Прилежный студент</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee winner" data-nominee="Галкин Виталий" data-row="Прилежный" data-video="videos/candidates/roldugin-spokoyniy.mp4">
+                        <div class="nominee-front">
+                            <img src="photo/Галкин.jpg" alt="Галкин Виталий">
+                            <h3>Галкин Виталий</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Спокойствие - его сила</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Алиев Александр" data-row="Прилежный">
+                        <div class="nominee-front">
+                            <img src="photo/Алиев.jpg" alt="Алиев Александр">
+                            <h3>Алиев Александр</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Ничто не выведет из равновесия</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Караев Эльчин" data-row="Прилежный">
+                        <div class="nominee-front">
+                            <img src="photo/Эльчин.jpg" alt="Караев Эльчин">
+                            <h3>Караев Эльчин</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Дзен в человеческом обличии</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Фролов Андрей" data-row="Прилежный">
+                        <div class="nominee-front">
+                            <img src="photo/Фролов.jpg" alt="Фролов Андрей">
+                            <h3>Фролов Андрей</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Мир и покой</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nomination-frame" data-nomination="Машина">
+                <div class="nomination-banner">Ржавчина</div>
+                <div class="row-title"><center>Машина года</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee" data-nominee="Сериков Александр" data-row="Машина">
+                        <div class="nominee-front">
+                            <img src="photo/галкин.jpg" alt="Сериков Александр">
+                            <h3>Сериков Александр</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Легкий как воздух</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Сенченко Дмитрий" data-row="Машина">
+                        <div class="nominee-front">
+                            <img src="photo/Сенченко.jpg" alt="Сенченко Дмитрий">
+                            <h3>Сенченко Дмитрий</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Парит над суетой</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Фролов Андрей" data-row="Машина">
+                        <div class="nominee-front">
+                            <img src="photo/Фролов.jpg" alt="Фролов Андрей">
+                            <h3>Фролов Андрей</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Эфирный мечтатель</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Самсонов Константин" data-row="Машина">
+                        <div class="nominee-front">
+                            <img src="photo/Самсонов.png" alt="Самсонов Константин">
+                            <h3>Самсонов Константин</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Воздушный философ · надёжная машина</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nomination-frame" data-nomination="Флешбэк">
+                <div class="nomination-banner">Смех</div>
+                <div class="row-title"><center>Флешбэк года</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee winner" data-nominee="Караев Эльчин" data-row="Флешбэк">
+                        <div class="nominee-front">
+                            <img src="photo/сериков.jpg" alt="Караев Эльчин">
+                            <h3>Караев Эльчин</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Ходячий мем</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Лукин Александр" data-row="Флешбэк">
+                        <div class="nominee-front">
+                            <img src="photo/Лукин.jpg" alt="Лукин Александр">
+                            <h3>Лукин Александр</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Генератор смешного</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Сериков Александр" data-row="Флешбэк">
+                        <div class="nominee-front">
+                            <img src="photo/Тигр.jpg" alt="Сериков Александр">
+                            <h3>Сериков Александр</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Мемный король</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Литнарович Кирилл" data-row="Флешбэк">
+                        <div class="nominee-front">
+                            <img src="photo/Литнарович.jpg" alt="Литнарович Кирилл">
+                            <h3>Литнарович Кирилл</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Воплощение юмора</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nomination-frame" data-nomination="Канал">
+                <div class="nomination-banner">Свет</div>
+                <div class="row-title"><center>Канал года</center></div>
+                <div class="nominee-subblock">
+                    <div class="nominee" data-nominee="Айфон братки" data-row="Канал">
+                        <div class="nominee-front">
+                            <img src="" alt="Айфон Братки">
+                            <h3>Айфон Братки</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Светит ярче всех</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="" data-row="Канал">
+                        <div class="nominee-front">
+                            <img src="" alt="">
+                            <h3></h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description"></div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="" data-row="">
+                        <div class="nominee-front">
+                            <img src="" alt="">
+                            <h3></h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description"></div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="" data-row="">
+                        <div class="nominee-front">
+                            <img src="" alt="">
+                            <h3></h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description"></div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="voteReminder" class="welcome-text" style="margin-bottom: 20px;">
+                Пожалуйста, проголосуйте во всех номинациях!
+            </div>
+            <button class="button submit-button" id="submitVotes">Отправить голос</button>
+        </div>
+
+        <div id="tab5" class="tab">
+            <h1 id="thankYou" style="display: none;">Спасибо за ваш выбор!</h1>
+        </div>
+    </div>
+
+
+    <section class="candidate-modal" id="candidateModal" aria-hidden="true">
+      <div class="candidate-dialog" role="dialog" aria-modal="true" aria-labelledby="candidateModalName">
+        <button class="candidate-close" id="candidateClose" type="button" aria-label="Закрыть">×</button>
+        <div class="candidate-theme-badge" id="candidateThemeBadge"></div>
+        <div class="candidate-modal-kicker" id="candidateModalKicker">ДОСЬЕ НОМИНАНТА</div>
+        <h2 id="candidateModalName">Кандидат</h2>
+        <div class="candidate-tabs" role="tablist" id="candidateTabs">
+          <button type="button" class="candidate-tab active" data-pane="historyPane" id="tabHistoryBtn">История</button>
+          <button type="button" class="candidate-tab" data-pane="videoPane" id="tabVideoBtn">Видео</button>
+        </div>
+        <div class="candidate-pane active" id="historyPane">
+          <img id="candidateModalPhoto" class="candidate-modal-photo" src="" alt="Фото кандидата">
+          <div class="candidate-history-copy"><div class="candidate-category" id="candidateCategory"></div><p id="candidateHistoryText"></p></div>
+          <div id="candidateExtraHistory" class="candidate-extra"></div>
+        </div>
+        <div class="candidate-pane" id="videoPane">
+          <video id="candidateVideo" controls playsinline preload="metadata" muted></video>
+          <p class="candidate-video-note" id="candidateVideoNote">Видео кандидата. Нажми ▶, чтобы посмотреть.</p>
+          <div id="candidateExtraVideo" class="candidate-extra"></div>
+        </div>
+        <div class="candidate-modal-actions">
+          <button type="button" class="candidate-back" id="candidateBack">Назад к кандидатам</button>
+          <button type="button" class="candidate-vote" id="candidateVote">Голосовать за кандидата</button>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+

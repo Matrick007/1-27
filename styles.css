@@ -1,0 +1,401 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap');
+:root{--ink:#111111;--paper:#f4f1eb;--muted:#858078;--line:rgba(17,17,17,.14);--accent:#c7a56a;--white:#fff;--safe-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}html,body{width:100%;height:100%;min-height:100%;font-family:Manrope,Arial,sans-serif;background:var(--paper);color:var(--ink)}body{overflow:hidden;position:relative}.background{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 40%,#fffdf8 0%,#f4f1eb 65%,#e9e3d8 100%);z-index:0}.particles,.glow-effect{display:none}.portrait-decor{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.portrait{position:absolute;width:clamp(25px,6vw,48px);height:clamp(25px,6vw,48px);object-fit:cover;border-radius:9px;filter:grayscale(1);opacity:.23;border:1px solid rgba(17,17,17,.2)}.p1{top:12%;left:8%;transform:rotate(-9deg)}.p2{top:21%;right:8%;transform:rotate(8deg)}.p3{bottom:20%;left:5%;transform:rotate(6deg)}.p4{bottom:12%;right:9%;transform:rotate(-8deg)}.p5{top:52%;right:4%;transform:rotate(5deg)}.oscar{position:absolute;font-size:20px;color:#b99a60;opacity:.4}.o1{top:8%;right:23%}.o2{top:43%;left:6%}.o3{bottom:9%;left:24%}.o4{bottom:34%;right:12%}.o5{top:26%;left:19%}.container{position:relative;z-index:1;width:100%;height:100%;min-height:0;padding:0;overflow:hidden;background:transparent;border:0;border-radius:0;box-shadow:none;backdrop-filter:none}.menu-button{position:fixed;z-index:30;top:calc(14px + env(safe-area-inset-top,0px));right:15px;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.75);color:var(--ink);box-shadow:0 4px 18px #17120a0a}.menu-button::before{content:'☰';font-size:17px}.menu{display:none;position:fixed;z-index:31;top:65px;right:15px;padding:7px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 15px 40px #0002;min-width:170px}.menu-item{padding:13px 15px;font-size:13px;font-weight:700;border-radius:8px}.menu-item:active{background:#f1ede5}.info-panel{display:none;position:fixed;inset:0;z-index:40;background:#f4f1eb;padding:30px;align-items:center;justify-content:center;flex-direction:column;text-align:center}.info-panel p{max-width:300px;line-height:1.8;font-size:15px;margin-bottom:25px}.close-info{border:0;background:var(--ink);color:#fff;border-radius:10px;padding:13px 25px;font-weight:700}.tab{display:none;width:100%;height:100%;min-height:0;overflow:hidden}.tab.active{display:flex;flex-direction:column}.#tab1{display:flex}#tab1.tab.active{justify-content:center;align-items:center;text-align:center;padding:65px 25px calc(30px + var(--safe-bottom));}.hero-kicker,.section-eyebrow{font-size:9px;letter-spacing:.23em;font-weight:800;color:#766f64}.hero-kicker{display:flex;align-items:center;gap:9px;margin-bottom:24px}.status-dot{width:6px;height:6px;background:var(--accent);border-radius:50%}.hero-year{font-family:Oswald,sans-serif;font-weight:600;font-size:clamp(76px,24vw,128px);letter-spacing:-.06em;line-height:.95;color:var(--ink)}.hero-year span{color:#c2a36d}.hero-rule{height:1px;width:66px;background:var(--accent);margin:23px auto 20px}.hero-title{font-family:Oswald,sans-serif;font-size:clamp(30px,9vw,48px);font-weight:600;letter-spacing:.055em;line-height:1.05;margin:0!important;color:var(--ink)!important;background:none!important;-webkit-text-fill-color:currentColor!important;text-shadow:none!important}.hero-subtitle{font-family:Oswald,sans-serif;font-size:18px;letter-spacing:.12em;text-transform:uppercase;margin-top:12px;color:#6e675e}.hero-copy{font-size:12px;line-height:1.85;color:#716b62;margin-top:23px;max-width:290px}.hero-meta{display:flex;align-items:center;gap:10px;margin-top:28px;font-size:8px;letter-spacing:.12em;font-weight:800;color:#8b8378}.meta-separator{color:var(--accent)}.button{border:0;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:25px;background:var(--ink);color:#fff;font:700 13px Manrope,sans-serif;border-radius:12px;box-shadow:0 10px 25px #17120a15;transition:background .18s ease;width:min(100%,320px);padding:17px 18px}.hero-button{margin-top:25px;min-height:56px;text-align:left}.button-arrow{font-size:21px;font-weight:400;color:#d8bd8b}.button:active,.vote-action:active{transform:scale(.985)}.hero-footnote{position:absolute;bottom:calc(17px + var(--safe-bottom));font-size:8px;letter-spacing:.2em;color:#aaa196;font-weight:700}#tab3{display:none;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:calc(18px + env(safe-area-inset-top,0px)) 16px calc(35px + var(--safe-bottom));align-items:stretch;gap:0}#tab3.tab.active{display:flex}.voting-heading{display:flex;align-items:flex-end;justify-content:space-between;padding:4px 50px 17px 2px}.voting-heading h1{font:600 36px Oswald,sans-serif;letter-spacing:.01em;margin-top:5px;margin-bottom:0;background:none;color:var(--ink);-webkit-text-fill-color:var(--ink);text-shadow:none}.step-counter{display:flex;align-items:baseline;gap:5px;font:500 15px Oswald,sans-serif;color:#aaa196}.step-counter span:first-child{font-size:29px;color:var(--ink)}.step-counter i{font-style:normal;color:var(--accent)}.progress-track{width:100%;height:3px;background:#ded8ce;border-radius:9px;overflow:hidden}.progress-track span{display:block;height:100%;width:12.5%;background:var(--accent);transition:width .25s ease}.voting-hint{font-size:11px;line-height:1.6;color:#8a8379;padding:12px 2px 22px}.nomination-frame{display:none;width:100%;position:relative;background:rgba(255,255,255,.72);border:1px solid #e2ddd4;border-radius:19px;padding:22px 13px 16px;margin:0 0 20px;box-shadow:0 10px 35px #4b3a1b0a}.nomination-frame.current{display:block}.nomination-frame.completed{display:none}.nomination-banner{position:static;display:inline-flex;align-items:center;justify-content:center;background:#eee7da;color:#76603c;border-radius:5px;padding:6px 9px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;box-shadow:none;margin-bottom:10px}.row-title{font:600 clamp(25px,7vw,34px) Oswald,sans-serif;letter-spacing:.01em;text-align:left;margin:0 0 17px;color:var(--ink);background:none;-webkit-text-fill-color:var(--ink)}.row-title center{text-align:left}.nominee-subblock{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;justify-content:stretch}.nominee{position:relative;min-width:0;min-height:0;height:clamp(175px,54vw,225px);padding:0;flex:none;perspective:1000px;border:1px solid #e5e0d7;border-radius:13px;background:#f7f4ee;box-shadow:none;overflow:hidden;cursor:pointer;transition:border-color .2s,background .2s}.nominee:hover,.nominee.active{transform:none;border-color:#c2a36d;box-shadow:none}.nominee-front,.nominee-back{position:absolute;inset:0;width:100%;height:100%;padding:11px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden;transition:transform .28s ease;background:#f7f4ee}.nominee-front{transform:rotateY(0)}.nominee-back{transform:rotateY(180deg);background:#1b1a17;color:#fff}.nominee.flipped .nominee-front{transform:rotateY(-180deg)}.nominee.flipped .nominee-back{transform:rotateY(0)}.nominee img{display:block;width:clamp(64px,20vw,92px);height:clamp(64px,20vw,92px);object-fit:cover;border-radius:50%;margin:0 0 12px;box-shadow:none;background:#e6dfd3;border:2px solid #fff}.nominee h3{font-size:clamp(11px,3.2vw,14px);font-weight:800;line-height:1.35;color:var(--ink);padding:0 3px;overflow-wrap:anywhere}.nominee-back h3{color:#fff}.nominee-description{font-size:10px;line-height:1.5;color:#d1c9bc;padding:0 3px;margin-bottom:14px}.vote-action{font:700 10px Manrope,sans-serif;letter-spacing:.03em;background:#c7a56a;color:#17140f;border:0;border-radius:8px;padding:11px 13px;min-height:38px;width:100%;max-width:150px;box-shadow:none;animation:none}.nominee.selected{border:2px solid #b99a60;background:#f2eadb}.nominee.selected::after{content:'✓ ВЫБРАН';position:absolute;top:7px;left:7px;z-index:5;border-radius:4px;background:#c7a56a;color:#17140f;padding:5px 6px;font-size:7px;font-weight:800;letter-spacing:.08em}.winner{border-color:#c7a56a}.winner-banner{position:absolute;top:7px;right:70px;left:auto;transform:none;background:#c7a56a;color:#17140f;font-size:7px;line-height:1.2;padding:5px 6px;border-radius:4px;box-shadow:none;z-index:3;max-width:80px;text-align:center;font-weight:800}.winner .nominee-front{padding-top:27px}.submit-button{display:none;margin:12px auto 0;width:100%;max-width:none;justify-content:center;text-align:center;min-height:54px}.submit-button[style*="block"]{display:flex!important}#voteReminder{font-size:11px;line-height:1.6;color:#8a8379;text-align:center;padding:18px 12px;margin:0!important}.music-modal{position:fixed;inset:0;z-index:50;background:#171613b8;display:none;align-items:flex-end;justify-content:center;padding:12px}.music-modal-content{width:100%;max-width:430px;max-height:80dvh;overflow:auto;background:#f8f5ef;border-radius:22px 22px 15px 15px;padding:25px 20px calc(20px + var(--safe-bottom));text-align:left;box-shadow:0 20px 60px #0003;border:1px solid #fff}.music-modal-content h2{font:600 25px Oswald,sans-serif;margin-bottom:15px;color:var(--ink)}.track-option{padding:14px 15px;margin:7px 0;background:#fff;color:var(--ink);border:1px solid #e7e0d5;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700}.track-option:active{background:#eee7da}.music-control{position:fixed;right:13px;bottom:calc(16px + var(--safe-bottom));z-index:25}.music-control-button{width:42px;height:42px;border:1px solid #d9d0c1;border-radius:50%;background:#fff;color:var(--ink);box-shadow:0 5px 20px #0001}.music-control-button::before{content:'♪';font-size:20px}.music-control-menu{position:absolute;bottom:50px;right:0;width:150px;background:#fff;padding:8px;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px #0002}.music-control-menu .track-option{margin:3px 0;padding:11px}.#tab5{}#tab5.tab.active{justify-content:center;align-items:center;text-align:center;padding:25px}#thankYou{font:600 32px Oswald,sans-serif;color:var(--ink);text-shadow:none;max-width:300px}.tab h1{color:var(--ink)}
+@media(min-width:700px){#tab3{padding:28px max(24px,calc((100vw - 520px)/2)) 40px}.nomination-frame{padding:25px 20px}.nominee{height:220px}.nominee img{width:88px;height:88px}}
+@media(max-width:360px){#tab3{padding-left:11px;padding-right:11px}.nomination-frame{padding:18px 9px 12px}.nominee-subblock{gap:7px}.nominee{height:170px}.nominee img{width:58px;height:58px;margin-bottom:9px}.nominee h3{font-size:10px}.winner-banner{font-size:6px;max-width:66px}.voting-heading h1{font-size:31px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+
+/* FIX: nominee cards remain visible and use large square portraits */
+#tab3 .nomination-frame.current { display:block !important; }
+#tab3 .nomination-frame:not(.current) { display:none !important; }
+#tab3 .nominee-subblock { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:stretch; gap:12px; width:100%; margin-top:8px; }
+#tab3 .nominee { display:block !important; width:100%; height:clamp(230px,64vw,320px); min-height:230px; opacity:1; }
+#tab3 .nominee-front, #tab3 .nominee-back { display:flex; }
+#tab3 .nominee-front { padding:14px 10px; gap:10px; }
+#tab3 .nominee img { width:clamp(105px,31vw,155px); height:clamp(105px,31vw,155px); min-width:0; min-height:0; aspect-ratio:1/1; object-fit:cover; border-radius:12px; margin:0 auto 8px; }
+#tab3 .nominee h3 { max-width:100%; font-size:clamp(12px,3.4vw,16px); line-height:1.25; overflow-wrap:anywhere; }
+#tab3 .nominee-back { padding:14px 10px; }
+#tab3 .nominee-description { font-size:clamp(12px,3.2vw,15px); line-height:1.5; }
+#tab3 .vote-action { min-height:42px; padding:10px 12px; }
+#tab3 .row-title { margin-bottom:12px; }
+#tab3 .nomination-frame { height:auto; min-height:0; flex:0 0 auto; }
+@media(max-width:360px) {
+ #tab3 .nominee-subblock {gap:8px}
+ #tab3 .nominee {height:225px;min-height:225px}
+ #tab3 .nominee img {width:min(28vw,112px);height:min(28vw,112px)}
+ #tab3 .nominee h3 {font-size:11px}
+}
+.video-interstitial { position:fixed; inset:0; z-index:1000; display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px; background:#11100f; color:#fff; }
+.video-interstitial.visible {display:flex}
+.video-interstitial video {display:block;width:min(100%,900px);max-height:76dvh;object-fit:contain;background:#000;border-radius:12px}
+.video-interstitial .video-caption {font:600 11px Manrope,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#d8bd8b;margin:0 0 16px;text-align:center}
+.video-interstitial .video-controls {width:min(100%,900px);display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
+.video-interstitial button {border:1px solid #ffffff30;border-radius:10px;background:#ffffff12;color:#fff;padding:12px 16px;font:700 13px Manrope,Arial,sans-serif;cursor:pointer}
+.video-interstitial .video-note {font-size:11px;line-height:1.5;color:#c9c4bb;text-align:center;margin-top:10px}
+
+/* Candidate profile modal: restored history/video tabs and explicit vote/back actions */
+body.modal-open{overflow:hidden}
+.candidate-modal{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(18,16,13,.72);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.candidate-modal.visible{display:flex}
+.candidate-dialog{position:relative;width:min(100%,560px);max-height:min(90dvh,780px);overflow:auto;background:#f8f5ef;border:1px solid #e6dece;border-radius:22px;padding:22px;box-shadow:0 24px 90px #0005;color:#171613}
+.candidate-close{position:absolute;right:14px;top:13px;width:36px;height:36px;border:1px solid #e2d9c9;border-radius:50%;background:#fff;font-size:25px;line-height:1;cursor:pointer}
+.candidate-modal-kicker{font-size:9px;font-weight:800;letter-spacing:.2em;color:#8d7855;margin:3px 45px 7px 0}
+#candidateModalName{font:600 clamp(27px,7vw,38px) Oswald,sans-serif;margin:0 40px 18px 0;overflow-wrap:anywhere}
+.candidate-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:5px;background:#ebe5da;border-radius:12px;margin-bottom:18px}
+.candidate-tab{border:0;border-radius:9px;padding:12px;background:transparent;color:#71695e;font:800 12px Manrope,sans-serif;cursor:pointer}
+.candidate-tab.active{background:#171613;color:#fff;box-shadow:0 4px 12px #0001}
+.candidate-pane{display:none}.candidate-pane.active{display:flex}
+#historyPane{display:none;align-items:initial;gap:0;line-height:1.75}
+#historyPane.active{display:block}
+.candidate-modal-photo{float:left;width:clamp(125px,34vw,190px);aspect-ratio:1/1;object-fit:cover;border-radius:13px;background:#e6dfd3;border:1px solid #e1d7c5;margin:0 16px 10px 0}
+.candidate-history-copy{min-width:0;display:contents}
+.candidate-category{display:inline-block;background:#eee5d5;color:#7d653e;padding:6px 8px;border-radius:5px;font-size:9px;font-weight:800;letter-spacing:.06em;margin-bottom:10px}
+.candidate-history-copy p{font-size:13px;line-height:1.75;color:#514b42;overflow-wrap:anywhere;margin:0;white-space:pre-wrap}
+#historyPane::after{content:"";display:block;clear:both}
+#videoPane{flex-direction:column;gap:10px}#candidateVideo{display:block;width:100%;max-height:50dvh;aspect-ratio:16/9;background:#111;border-radius:13px;object-fit:contain}.candidate-video-note{font-size:11px;line-height:1.5;color:#81796e}
+.candidate-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:22px}.candidate-back,.candidate-vote{min-height:48px;padding:12px;border-radius:10px;font:800 11px Manrope,sans-serif;cursor:pointer}.candidate-back{border:1px solid #ded5c5;background:#fff;color:#26231f}.candidate-vote{border:1px solid #c7a56a;background:#c7a56a;color:#17140f}
+@media(max-width:390px){.candidate-dialog{padding:18px 15px;border-radius:18px}.candidate-modal-photo{width:clamp(118px,42vw,155px);margin-right:12px;margin-bottom:8px}.candidate-history-copy p{font-size:12px}.candidate-modal-actions{grid-template-columns:1fr}.candidate-vote{order:-1}}
+
+/* ========== Winner banner: strict & rich ========== */
+#tab3 .winner{border-color:#c7a56a!important;box-shadow:0 0 0 1px rgba(199,165,106,.4)!important}
+#tab3 .winner-banner{
+  position:absolute!important;
+  top:8px!important;
+  left:8px!important;
+  right:auto!important;
+  transform:none!important;
+  z-index:5!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  max-width:calc(100% - 16px)!important;
+  width:auto!important;
+  padding:6px 9px!important;
+  border-radius:6px!important;
+  background:linear-gradient(145deg,#1c1914 0%,#2c261c 55%,#1a1712 100%)!important;
+  color:#e8d5a8!important;
+  border:1px solid rgba(199,165,106,.6)!important;
+  box-shadow:0 4px 16px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.1)!important;
+  font-size:8px!important;
+  font-weight:800!important;
+  letter-spacing:.05em!important;
+  line-height:1.3!important;
+  text-transform:uppercase!important;
+  text-align:left!important;
+  overflow-wrap:anywhere!important;
+  pointer-events:none!important;
+}
+#tab3 .winner-banner::before{
+  content:'★'!important;
+  flex-shrink:0!important;
+  color:#c7a56a!important;
+  font-size:9px!important;
+  line-height:1!important;
+}
+#tab3 .winner .nominee-front{padding-top:38px!important}
+@media(max-width:360px){
+  #tab3 .winner-banner{font-size:7px!important;padding:5px 7px!important}
+  #tab3 .winner .nominee-front{padding-top:34px!important}
+}
+
+/* ========== Onboarding tooltips ========== */
+.coach-overlay{
+  position:fixed;inset:0;z-index:1300;pointer-events:none;
+}
+.coach-spotlight{
+  position:fixed;z-index:1301;border-radius:16px;
+  box-shadow:0 0 0 9999px rgba(17,16,13,.55);
+  pointer-events:none;transition:all .28s ease;
+}
+.coach-card{
+  position:fixed;z-index:1302;width:min(300px,calc(100vw - 28px));
+  background:#f8f5ef;border:1px solid #e2d9c7;border-radius:16px;
+  padding:16px 16px 14px;box-shadow:0 18px 50px rgba(0,0,0,.28);
+  pointer-events:auto;color:#171613;
+  animation:coachIn .32s ease both;
+}
+@keyframes coachIn{
+  from{opacity:0;transform:translateY(8px) scale(.97)}
+  to{opacity:1;transform:none}
+}
+.coach-kicker{
+  font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:#8d7855;margin-bottom:6px;
+}
+.coach-card p{
+  font-size:13px;line-height:1.55;color:#3d3830;margin:0 0 14px;
+}
+.coach-actions{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.coach-skip{
+  border:0;background:transparent;color:#8a8379;font:700 12px Manrope,sans-serif;
+  cursor:pointer;padding:8px 4px;
+}
+.coach-next{
+  border:0;border-radius:10px;background:#171613;color:#fff;
+  font:800 12px Manrope,sans-serif;padding:11px 16px;cursor:pointer;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+}
+.coach-next:active{transform:scale(.97)}
+.coach-dots{display:flex;gap:5px;margin-bottom:10px}
+.coach-dot{width:6px;height:6px;border-radius:50%;background:#d4cdc0}
+.coach-dot.on{background:#c7a56a}
+.coach-arrow{
+  position:absolute;width:12px;height:12px;background:#f8f5ef;
+  border:1px solid #e2d9c7;transform:rotate(45deg);z-index:-1;
+}
+.coach-arrow.top{top:-6px;border-bottom:0;border-right:0}
+.coach-arrow.bottom{bottom:-6px;border-top:0;border-left:0}
+#submitVotes.coach-pulse{
+  animation:coachPulse 1.4s ease-in-out infinite;
+  box-shadow:0 0 0 0 rgba(199,165,106,.55);
+}
+@keyframes coachPulse{
+  0%{box-shadow:0 0 0 0 rgba(199,165,106,.5)}
+  70%{box-shadow:0 0 0 14px rgba(199,165,106,0)}
+  100%{box-shadow:0 0 0 0 rgba(199,165,106,0)}
+}
+
+/* ============================================================
+   МОДАЛКИ — строгая база + уникальный характер каждого
+   ============================================================ */
+.candidate-theme-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  padding:7px 12px;border-radius:6px;margin:0 42px 10px 0;
+  background:#ebe5da;color:#6e5c3e;border:1px solid #ddd4c4;
+}
+.candidate-extra{margin-top:16px;clear:both}
+.ux-card{border-radius:12px;padding:14px 14px 12px;border:1px solid #e2dbd0;background:#f7f3ec}
+.ux-caption{font-size:12px;line-height:1.55;color:#6e675e;margin:10px 0 0}
+.ux-quote{font-size:13px;line-height:1.5;font-style:italic;color:#4a453c;padding:12px 14px;border-left:3px solid #c7a56a;background:#f3efe7;border-radius:0 10px 10px 0}
+.ux-note-strict{font-size:12px;line-height:1.5;color:#5a5348;padding:11px 13px;background:#f0ebe3;border-radius:10px;border:1px solid #e2dbd0}
+.ux-metric{display:flex;justify-content:space-between;align-items:baseline;padding:12px 14px;background:#f0ebe3;border-radius:10px;font-size:12px;color:#6e675e}
+.ux-metric b{font-size:14px;color:#171613;font-weight:800}
+
+/* —— Ходящий base —— */
+.th-hody .candidate-theme-badge{background:#eef2ea;color:#3d5a36;border-color:#d0dcc8}
+.th-hody .candidate-vote{background:#3d5a36;border-color:#3d5a36;color:#fff}
+.ux-stamp-mark{font-size:9px;font-weight:800;letter-spacing:.2em;color:#3d5a36;margin-bottom:10px}
+.ux-stamp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.ux-stamp-grid span{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;border-radius:6px;background:#e4e9df;color:#8a9480}
+.ux-stamp-grid span.on{background:#3d5a36;color:#fff}
+.ux-quiet{display:flex;gap:0;padding:0;overflow:hidden}
+.ux-quiet-line{width:4px;background:#3d5a36;flex-shrink:0}
+.ux-quiet-body{padding:14px 14px 12px}
+.ux-quiet-body strong{display:block;font-size:13px;margin-bottom:6px;color:#171613}
+.ux-quiet-body p{margin:0;font-size:12px;line-height:1.55;color:#5a5348}
+.ux-contract-head{font-size:9px;font-weight:800;letter-spacing:.14em;color:#6e5c3e;margin-bottom:10px}
+.ux-list{margin:0;padding:0 0 0 16px;font-size:12px;line-height:1.7;color:#4a453c}
+.ux-timeline{display:flex;flex-direction:column;gap:0}
+.ux-tl-item{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #e8e2d8}
+.ux-tl-item:last-child{border-bottom:0}
+.ux-tl-item i{width:10px;height:10px;border-radius:50%;background:#d0d0d0;display:block}
+.ux-tl-item.on i{background:#3d5a36}
+.ux-tl-item.gap i{background:#c7a56a;box-shadow:0 0 0 3px rgba(199,165,106,.25)}
+.ux-tl-item span{font-size:11px;color:#8a8379}
+.ux-tl-item b{font-size:12px;color:#171613}
+.p-kirill-h .ux-card{border-color:#c5d4be}
+.p-samsonov-h .ux-quiet{background:#f4f6f2}
+.p-galkin-h .ux-contract{background:#f7f3ec}
+.p-karaev-h .ux-timeline{background:#f7f3ec;padding:4px 12px;border-radius:12px;border:1px solid #e2dbd0}
+
+/* —— Прогульщик base —— */
+.th-progul .candidate-theme-badge{background:#2a2a2e;color:#c9c4bb;border-color:#3a383f}
+.th-progul .candidate-dialog{background:#1c1b1f;color:#e8e4dc;border-color:#3a383f}
+.th-progul #candidateModalName{color:#f0ece4}
+.th-progul .candidate-modal-kicker{color:#9a9080}
+.th-progul .candidate-tabs{background:#2a2830}
+.th-progul .candidate-tab{color:#9a948a}
+.th-progul .candidate-tab.active{background:#3d3a45;color:#fff}
+.th-progul .candidate-history-copy p,.th-progul .candidate-video-note,.th-progul .ux-caption{color:#b8b2a8}
+.th-progul .candidate-category{background:#3a383f;color:#c9c4bb}
+.th-progul .candidate-back{background:#2a2830;border-color:#4a4752;color:#e8e4dc}
+.th-progul .candidate-vote{background:#5c4a6b;border-color:#5c4a6b;color:#fff}
+.th-progul .candidate-close{background:#2a2830;border-color:#4a4752;color:#e8e4dc}
+.th-progul .ux-card{background:#25242a;border-color:#3a383f;color:#e8e4dc}
+.th-progul .ux-quote{background:#25242a;border-left-color:#8a6a9a;color:#c9c4bb}
+.ux-opt-title{font-size:9px;font-weight:800;letter-spacing:.18em;color:#a09080;margin-bottom:8px}
+.ux-bar{height:6px;background:#3a383f;border-radius:4px;overflow:hidden;margin-top:12px}
+.ux-bar i{display:block;height:100%;background:linear-gradient(90deg,#8a6a9a,#c7a56a);border-radius:4px}
+.ux-busy-tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.14em;padding:5px 9px;background:#3d3a45;color:#e8a0d0;border-radius:4px;margin-bottom:10px}
+.ux-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ux-chips span{font-size:10px;font-weight:700;padding:5px 9px;border-radius:999px;background:#3a383f;color:#c9c4bb}
+.ux-year{font:700 22px Oswald,sans-serif;letter-spacing:.04em;color:#c7a56a;margin-bottom:6px}
+.ux-remote{display:flex;gap:12px;align-items:flex-start}
+.ux-remote-icon{font-size:22px;opacity:.7;line-height:1}
+.ux-remote strong{display:block;font-size:13px;margin-bottom:4px}
+.ux-remote p{margin:0;font-size:12px;line-height:1.5;color:#b8b2a8}
+.ux-case{font-size:11px;font-weight:700;letter-spacing:.08em;color:#9a9080;padding:10px 12px;border:1px dashed #4a4752;border-radius:8px;text-align:center}
+.p-polyakova .ux-opt{border-color:#5a4a6a}
+.p-ivanova .ux-busy{border-color:#6a4a5a}
+.p-bersenev-p .ux-discovery{border-color:#5a5a3a}
+.p-roldugin-p .ux-remote{border-color:#4a5a6a}
+
+/* —— Победители —— разрыв —— */
+.th-win .candidate-theme-badge{
+  background:linear-gradient(145deg,#1c1914,#2c261c);color:#e8d5a8;
+  border:1px solid rgba(199,165,106,.55);
+}
+.th-win .candidate-dialog{
+  border-color:#c7a56a;
+  box-shadow:0 24px 90px #0005,0 0 0 1px rgba(199,165,106,.2);
+  background:linear-gradient(180deg,#faf7f1 0%,#f4efe6 100%);
+}
+.th-win .candidate-vote{
+  background:linear-gradient(145deg,#c7a56a,#e0c78a);border-color:#c7a56a;color:#17140f;
+  box-shadow:0 6px 20px rgba(199,165,106,.35);
+}
+.th-win .candidate-modal-kicker{color:#8d7855;letter-spacing:.22em}
+.ux-win-podium,.ux-win-meme{text-align:center;padding:16px 12px;background:#1c1914;border-radius:14px;color:#e8d5a8;border:1px solid rgba(199,165,106,.4)}
+.ux-win-years{display:flex;justify-content:center;gap:10px;margin-bottom:8px}
+.ux-win-years span{font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 10px;border:1px solid rgba(199,165,106,.5);border-radius:4px;color:#c7a56a}
+.ux-win-title{font:600 20px Oswald,sans-serif;letter-spacing:.04em;margin:6px 0;color:#f0e6d0}
+.ux-win-sub{font-size:12px;line-height:1.5;color:#a89878;margin:6px 0 0}
+.ux-win-claim{margin-top:12px;font-size:12px;font-weight:700;text-align:center;color:#6e5c3e;letter-spacing:.04em}
+.ux-win-multi{display:flex;flex-direction:column;gap:8px}
+.ux-win-row{display:flex;justify-content:space-between;align-items:center;padding:11px 13px;background:#1c1914;border-radius:10px;border:1px solid rgba(199,165,106,.3)}
+.ux-win-row b{font-size:12px;color:#e8d5a8}
+.ux-win-row span{font-size:11px;color:#a89878;font-weight:700}
+.ux-win-lens{display:flex;gap:14px;align-items:center;padding:14px;background:#1c1914;border-radius:14px;border:1px solid rgba(199,165,106,.35)}
+.ux-lens-ring{width:48px;height:48px;border-radius:50%;border:3px solid #c7a56a;box-shadow:inset 0 0 0 8px #2c261c,0 0 20px rgba(199,165,106,.25);flex-shrink:0}
+.ux-lens-copy strong{display:block;font-size:13px;color:#e8d5a8;margin-bottom:4px}
+.ux-lens-copy p{margin:0;font-size:12px;line-height:1.5;color:#a89878}
+.ux-win-seal{font-size:10px;font-weight:800;letter-spacing:.18em;text-align:center;padding:12px;background:#1c1914;color:#c7a56a;border-radius:10px;border:1px solid rgba(199,165,106,.4)}
+.p-roldugin-w .ux-win-podium{box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.p-litnarovich-w .ux-win-multi{gap:7px}
+.p-lukin-w .ux-lens-ring{border-color:#8ab4ff;box-shadow:inset 0 0 0 8px #1a2030,0 0 20px rgba(100,140,200,.3)}
+.p-serikov-w .ux-win-meme{background:linear-gradient(145deg,#1c1914,#2a1a24);border-color:rgba(200,120,160,.4)}
+
+/* —— Завод —— */
+.th-zavod .candidate-theme-badge{background:#2c2a26;color:#d4c4a0;border-color:#4a453c}
+.th-zavod .candidate-vote{background:#3d3830;border-color:#3d3830;color:#e8d5a8}
+.ux-duo{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 12px;background:#1c1a17;border-radius:12px;border:1px solid #3d3830}
+.ux-duo-a,.ux-duo-b{font:700 13px Manrope,sans-serif;color:#e8d5a8;padding:8px 12px;background:#2c2a26;border-radius:8px}
+.ux-duo-x{font-size:16px;color:#c7a56a;font-weight:800}
+.ux-duo.alt{background:#221f1a}
+.ux-shift{font-size:11px;font-weight:800;letter-spacing:.14em;text-align:center;padding:11px;background:#2c2a26;color:#d4c4a0;border-radius:8px;border:1px solid #4a453c}
+.p-zavod-1 .ux-duo{border-color:#5a4a3a}
+.p-zavod-2 .ux-duo{border-color:#3a4a5a}
+.p-zavod-3 .ux-duo{border-color:#4a3a5a}
+.p-zavod-4 .ux-duo{border-color:#3a5a4a}
+
+/* —— Прилежный —— полный пересбор —— */
+.th-prilez .candidate-theme-badge{background:#e8eef3;color:#3a5568;border-color:#c8d4de}
+.th-prilez .candidate-dialog{border-color:#c8d4de;background:#f7f9fb}
+.th-prilez .candidate-vote{background:#3a5568;border-color:#3a5568;color:#fff}
+.th-prilez .candidate-tabs{background:#e4ebf0}
+.th-prilez .candidate-tab.active{background:#3a5568;color:#fff}
+.ux-focus-card{padding:16px 14px;border-radius:14px;background:#fff;border:1px solid #d4dde5}
+.ux-focus-label{font-size:9px;font-weight:800;letter-spacing:.2em;color:#6a8494;margin-bottom:8px}
+.ux-focus-card h4{font:600 18px Oswald,sans-serif;margin:0 0 6px;color:#1a2a34}
+.ux-focus-card p{margin:0;font-size:12px;line-height:1.55;color:#5a6a78}
+.ux-focus-card.dark{background:#1a2430;border-color:#2a3a48;color:#e0e6ec}
+.ux-focus-card.dark h4{color:#e8eef4}
+.ux-focus-card.dark p{color:#a0b0c0}
+.ux-focus-card.dark .ux-focus-label{color:#7a9ab0}
+.ux-focus-card.zen{background:#f0f5f2;border-color:#c8d8d0}
+.ux-focus-card.zen h4{color:#2a4a3a}
+.ux-focus-card.soft{background:#f5f3f0;border-color:#ddd6cc}
+.ux-focus-meter{position:relative;height:26px;background:#e4ebf0;border-radius:8px;overflow:hidden}
+.ux-focus-meter i{position:absolute;left:0;top:0;bottom:0;background:#3a5568;border-radius:8px}
+.ux-focus-meter span{position:relative;z-index:1;display:flex;align-items:center;height:100%;padding:0 12px;font-size:10px;font-weight:800;color:#fff;letter-spacing:.06em}
+.ux-focus-meter.dark{background:#2a3a48}
+.ux-focus-meter.dark i{background:#5a8ab0}
+.ux-focus-meter.zen{background:#d8e8e0}
+.ux-focus-meter.zen i{background:#3a6a52}
+.ux-focus-meter.soft{background:#e8e2d8}
+.ux-focus-meter.soft i{background:#6a5a48}
+.p-galkin-pr .ux-focus-card{border-left:3px solid #3a5568}
+.p-aliev-pr .ux-focus-card{border-left:3px solid #5a8ab0}
+.p-karaev-pr .ux-focus-card{border-left:3px solid #3a6a52}
+.p-frolov-pr .ux-focus-card{border-left:3px solid #6a5a48}
+
+/* —— Машина / гараж —— */
+.th-mash .candidate-theme-badge{background:linear-gradient(135deg,#0f1115,#1a1e26);color:#8ab4ff;border:1px solid #2a3344}
+.th-mash .candidate-dialog{
+  background:linear-gradient(180deg,#12151c 0%,#0d0f14 100%);
+  color:#e8ecf2;border-color:#2a3344;
+  box-shadow:0 24px 90px #000a,0 0 40px rgba(80,120,200,.1);
+}
+.th-mash #candidateModalName{color:#f0f4fa}
+.th-mash .candidate-modal-kicker{color:#6a8ab8}
+.th-mash .candidate-tabs{background:#1a1e26}
+.th-mash .candidate-tab{color:#7a8494}
+.th-mash .candidate-tab.active{background:#2a3548;color:#fff}
+.th-mash .candidate-history-copy p,.th-mash .candidate-video-note{color:#a0a8b4}
+.th-mash .candidate-category{background:#1e2636;color:#8ab4ff}
+.th-mash .candidate-modal-photo{border-color:#2a3344}
+.th-mash .candidate-back{background:#1a1e26;border-color:#2a3344;color:#c8d0dc}
+.th-mash .candidate-vote{background:linear-gradient(145deg,#3a6ea5,#5a8fd4);border-color:#4a7ec0;color:#fff}
+.th-mash .candidate-close{background:#1a1e26;border-color:#2a3344;color:#c8d0dc}
+.garage-driver{margin-top:4px}
+.garage-label{font-size:9px;font-weight:800;letter-spacing:.16em;color:#6a8ab8;margin-bottom:10px}
+.garage-specs{display:grid;gap:7px}
+.garage-specs > div{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#1a1e26;border-radius:10px;border:1px solid #2a3344}
+.garage-specs span{font-size:11px;color:#7a8494}
+.garage-specs b{font-size:13px;color:#e8ecf2;font-weight:700}
+.garage-stage{margin-top:6px;text-align:center}
+.garage-car{position:relative;width:min(100%,220px);height:90px;margin:12px auto 14px}
+.car-body{position:absolute;left:10%;right:10%;bottom:28px;height:28px;border-radius:6px 14px 4px 4px;box-shadow:0 4px 12px #0006}
+.car-cabin{position:absolute;left:28%;right:32%;bottom:48px;height:22px;border-radius:8px 12px 0 0;opacity:.95}
+.car-wheel{position:absolute;bottom:8px;width:22px;height:22px;border-radius:50%;background:#1a1a1e;border:3px solid #4a4a52;box-shadow:inset 0 0 0 4px #2a2a30}
+.car-wheel.w1{left:18%}.car-wheel.w2{right:18%}
+.car-light{position:absolute;right:8%;bottom:36px;width:8px;height:8px;border-radius:50%;background:#ffd080;box-shadow:0 0 10px #ffb040}
+.garage-plate{display:inline-block;font:800 11px Manrope,sans-serif;letter-spacing:.14em;padding:8px 14px;background:#1a1e26;border:2px solid #3a4a60;border-radius:6px;color:#e8ecf2;margin-bottom:10px}
+.garage-caption{font-size:12px;line-height:1.55;color:#8a94a4;margin:0;padding:0 6px}
+/* варианты машин */
+.car-a .car-body{background:linear-gradient(180deg,#5a7aaa,#2a4060)}
+.car-a .car-cabin{background:linear-gradient(180deg,#7a9aca,#3a5a80)}
+.car-b .car-body{background:linear-gradient(180deg,#4a6a5a,#2a4030)}
+.car-b .car-cabin{background:linear-gradient(180deg,#6a8a7a,#3a5a48)}
+.car-b .car-light{background:#a0ffc0;box-shadow:0 0 10px #60d080}
+.car-c .car-body{background:linear-gradient(180deg,#7a6a9a,#403060)}
+.car-c .car-cabin{background:linear-gradient(180deg,#9a8aba,#5a4a80)}
+.car-c .car-light{background:#e0b0ff;box-shadow:0 0 10px #a070d0}
+.car-d .car-body{background:linear-gradient(180deg,#6a6a6a,#3a3a3a)}
+.car-d .car-cabin{background:linear-gradient(180deg,#8a8a8a,#4a4a4a)}
+.car-d .car-light{background:#ffe0a0;box-shadow:0 0 10px #d0b060}
+.p-serikov-m .garage-plate{border-color:#5a7aaa}
+.p-senchenko-m .garage-plate{border-color:#4a6a5a}
+.p-frolov-m .garage-plate{border-color:#7a6a9a}
+.p-samsonov-m .garage-plate{border-color:#6a6a6a}
+
+/* —— Флешбэк —— */
+.th-flash .candidate-theme-badge{background:#2a1a2e;color:#e8a0d0;border-color:#4a3a50}
+.th-flash .candidate-vote{background:#6b3a6a;border-color:#6b3a6a;color:#fff}
+.ux-flash-panel{padding:16px 14px;border-radius:14px;border:2px solid;position:relative}
+.ux-flash-tag{font-size:9px;font-weight:800;letter-spacing:.16em;margin-bottom:8px}
+.ux-flash-panel p{margin:0;font-size:13px;line-height:1.5;font-weight:600}
+.ux-flash-panel.a{background:#faf0f6;border-color:#d0a0c0;color:#4a2a40}
+.ux-flash-panel.a .ux-flash-tag{color:#8a4a70}
+.ux-flash-panel.b{background:#f0f4fa;border-color:#a0b0d0;color:#2a3a50}
+.ux-flash-panel.b .ux-flash-tag{color:#4a6a9a}
+.ux-flash-panel.c{background:#1c1914;border-color:#c7a56a;color:#e8d5a8}
+.ux-flash-panel.c .ux-flash-tag{color:#c7a56a}
+.ux-flash-panel.d{background:#f4f0e8;border-color:#c0b090;color:#3a3528}
+.ux-flash-panel.d .ux-flash-tag{color:#7a6a40}
+.ux-flash-react{font-size:12px;font-weight:700;text-align:center;padding:11px;background:#f3efe7;border-radius:10px;color:#5a4a60;letter-spacing:.04em}
+.p-karaev-f .ux-flash-panel{transform:rotate(-0.5deg)}
+.p-lukin-f .ux-flash-panel{transform:rotate(0.4deg)}
+.p-serikov-f .ux-flash-panel{box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.p-litnarovich-f .ux-flash-panel{box-shadow:0 4px 16px rgba(180,150,80,.15)}
+
+/* —— Канал —— */
+.th-kanal .candidate-theme-badge{background:#1a1a22;color:#ff6b6b;border-color:#3a3a48}
+.th-kanal .candidate-vote{background:#c43c3c;border-color:#c43c3c;color:#fff}
+.ux-broadcast{padding:16px;background:#1a1a22;border-radius:14px;border:1px solid #3a3a48;color:#e8e4dc}
+.ux-live-bar{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:.14em;color:#ff6b6b;margin-bottom:10px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#ff3b3b;animation:livePulse 1.4s ease infinite}
+@keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(255,59,59,.55)}70%{box-shadow:0 0 0 10px rgba(255,59,59,0)}100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}}
+.ux-broadcast h4{font:600 18px Oswald,sans-serif;margin:0 0 6px;color:#fff}
+.ux-broadcast p{margin:0;font-size:12px;line-height:1.5;color:#a8a4b0}
+.ux-studio{font-size:11px;font-weight:800;letter-spacing:.12em;text-align:center;padding:11px;background:#1a1a22;color:#c0b8c8;border-radius:8px;border:1px solid #3a3a48}
+
+@media(max-width:390px){
+  .ux-stamp-grid{gap:4px}
+  .ux-win-title{font-size:17px}
+  .ux-duo-a,.ux-duo-b{font-size:11px;padding:7px 9px}
+  .garage-car{height:78px}
+  .candidate-theme-badge{font-size:8px;padding:6px 9px}
+}
