@@ -1,0 +1,13 @@
+# Для Netlify / Cloudflare Pages: HTML всегда свежий, ресурсы кэшируются надолго.
+/index.html
+  Cache-Control: no-cache
+/
+  Cache-Control: no-cache
+/photo/*
+  Cache-Control: public, max-age=2592000
+/videos/*
+  Cache-Control: public, max-age=2592000
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
