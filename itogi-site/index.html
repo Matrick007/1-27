@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Премия 2027 · Центр подсчёта</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230b0d10'/><path d='M7 22V10l9 7 9-7v12' fill='none' stroke='%23e8c15a' stroke-width='2.4' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{--bg:#0a0c0f;--p1:#10131820;--panel:#11141a;--panel2:#161a21;--line:#222831;--line2:#2c3340;--tx:#e9ebee;--mu:#8b93a0;--mu2:#5d6572;--gold:#e8c15a;--ok:#4ddc9a;--bad:#ff5d5d;--r:14px;
+ --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;--sans:Manrope,system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{min-height:100vh;background:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(232,193,90,.07),transparent 70%),var(--bg);color:var(--tx);font:500 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,select{font:inherit;color:inherit}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+/* ---------- вход ---------- */
+#gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse 60% 50% at 50% 40%,#171b22,#08090c)}
+#gate[hidden]{display:none}
+.gate-c{width:min(440px,100%);padding:30px 28px 26px;border:1px solid var(--line2);border-radius:18px;background:linear-gradient(180deg,#14181f,#0e1116);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.gate-c .lg{display:flex;align-items:center;gap:12px;margin-bottom:22px}.gate-c .lg svg{width:38px;height:38px}
+.gate-c h1{font:800 20px var(--sans);letter-spacing:-.01em}.gate-c .lg small{display:block;font:500 11px var(--mono);letter-spacing:.16em;color:var(--mu);text-transform:uppercase;margin-top:2px}
+.fld{display:block;margin-top:12px}.fld span{display:block;margin-bottom:5px;font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.fld input{width:100%;height:44px;padding:0 14px;border:1px solid var(--line2);border-radius:10px;background:#0b0e12;outline:0;transition:border-color .2s,box-shadow .2s}.fld input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,193,90,.15)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:10px;border:1px solid var(--line2);background:var(--panel2);font-weight:700;font-size:13px;transition:transform .12s,border-color .2s,background .2s}.btn:hover{border-color:#3d4656;background:#1b2029}.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--gold);border-color:var(--gold);color:#15120a}.btn.pri:hover{background:#f1cd6c}
+.btn.sm{height:34px;padding:0 12px;font-size:12px;border-radius:8px}
+.gate-c .row{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}.gate-c .or{display:flex;align-items:center;gap:10px;margin:18px 0 2px;font:600 10px var(--mono);letter-spacing:.2em;color:var(--mu2);text-transform:uppercase}.gate-c .or::before,.gate-c .or::after{content:'';flex:1;height:1px;background:var(--line)}
+.gate-c .alt{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gate-c .err{min-height:1.2em;margin-top:10px;font:600 12px var(--sans);color:var(--bad)}
+/* ---------- каркас ---------- */
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;align-self:start;height:100vh;padding:22px 16px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:18px;background:rgba(10,12,15,.7);backdrop-filter:blur(8px)}
+.brand{display:flex;align-items:center;gap:11px;padding:0 6px}.brand svg{width:32px;height:32px;flex:none}.brand b{display:block;font:800 14px var(--sans);letter-spacing:-.01em}.brand small{font:500 9.5px var(--mono);letter-spacing:.16em;color:var(--mu);text-transform:uppercase}
+.nav{display:flex;flex-direction:column;gap:2px;overflow:auto}
+.nav a{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;color:var(--mu);text-decoration:none;font-weight:600;font-size:13px;transition:background .15s,color .15s}.nav a:hover{background:var(--panel);color:var(--tx)}
+.nav a.on{background:var(--panel2);color:var(--tx)}.nav a i{font:700 10px var(--mono);font-style:normal;color:var(--mu2)}.nav a em{font:700 11px var(--mono);font-style:normal;color:var(--mu)}.nav a.on i{color:var(--c,var(--gold))}
+.nav .sep{margin:10px 10px 4px;font:600 9.5px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mu2)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding:0 4px}
+.st{display:flex;align-items:center;gap:8px;font:600 11px var(--mono);letter-spacing:.06em;color:var(--mu)}.st i{width:8px;height:8px;border-radius:50%;background:var(--mu2)}.st.live i{background:var(--ok);box-shadow:0 0 0 0 rgba(77,220,154,.6);animation:pulse 2s infinite}.st.demo i{background:var(--gold)}.st.err i{background:var(--bad)}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(77,220,154,0)}100%{box-shadow:0 0 0 0 rgba(77,220,154,0)}}
+main{padding:26px clamp(16px,3vw,40px) 60px;min-width:0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.top h1{font:800 clamp(22px,3vw,30px)/1.1 var(--sans);letter-spacing:-.02em}.top p{margin-top:6px;font:500 12px var(--mono);color:var(--mu);letter-spacing:.04em}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sw{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);font:600 12px var(--sans);cursor:pointer;user-select:none}.sw i{position:relative;width:26px;height:14px;border-radius:7px;background:#2a303b;transition:background .2s}.sw i::after{content:'';position:absolute;left:2px;top:2px;width:10px;height:10px;border-radius:50%;background:#fff;transition:transform .2s}.sw.on i{background:var(--ok)}.sw.on i::after{transform:translateX(12px)}
+/* ---------- карточки показателей ---------- */
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{position:relative;padding:16px 16px 14px;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--panel),#0e1116);overflow:hidden}
+.kpi small{display:block;font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.kpi b{display:block;margin:10px 0 4px;font:800 32px/1 var(--sans);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.kpi span{font:500 11.5px var(--sans);color:var(--mu)}.kpi span em{font-style:normal;font-weight:700;color:var(--ok)}
+.kpi.hi{border-color:rgba(232,193,90,.35);background:linear-gradient(180deg,rgba(232,193,90,.09),#0e1116)}.kpi.hi b{color:var(--gold)}
+.kpi svg.sp{position:absolute;right:10px;bottom:10px;width:70px;height:26px;opacity:.9}
+/* ---------- панели ---------- */
+.panel{margin-top:14px;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--panel),#0e1116)}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px 0}.ph h2{font:800 15px var(--sans);letter-spacing:-.01em}.ph small{display:block;margin-top:3px;font:500 11px var(--mono);color:var(--mu);letter-spacing:.04em}
+.seg{display:inline-flex;padding:3px;border:1px solid var(--line2);border-radius:9px;background:#0b0e12}.seg button{padding:6px 12px;border-radius:6px;font:700 11px var(--mono);letter-spacing:.06em;color:var(--mu);transition:all .15s}.seg button.on{background:var(--panel2);color:var(--tx);box-shadow:0 1px 0 rgba(255,255,255,.05) inset}
+.chart{position:relative;padding:6px 14px 14px}.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;z-index:5;pointer-events:none;padding:8px 10px;border:1px solid var(--line2);border-radius:8px;background:#0b0e12ee;backdrop-filter:blur(6px);font:600 11px var(--mono);white-space:nowrap;opacity:0;transform:translate(-50%,-110%);transition:opacity .12s}.tip.on{opacity:1}.tip b{display:block;font:800 16px var(--sans);margin-top:2px}
+.two{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:14px}
+.hours{padding:14px 20px 20px}.hm{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;margin-top:10px}.hm i{aspect-ratio:1;border-radius:4px;background:rgba(232,193,90,var(--a,.05));position:relative}.hm i:hover::after{content:attr(data-t);position:absolute;left:50%;bottom:120%;transform:translateX(-50%);padding:3px 7px;border-radius:5px;background:#000;font:600 10px var(--mono);white-space:nowrap;z-index:3}
+.hml{display:flex;justify-content:space-between;margin-top:6px;font:600 9.5px var(--mono);color:var(--mu2);letter-spacing:.1em}
+/* ---------- номинации ---------- */
+.nom{--c:var(--gold);margin-top:18px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#12161c,#0d1015);overflow:hidden;scroll-margin-top:16px}
+.nom::before{content:'';display:block;height:3px;background:linear-gradient(90deg,var(--c),transparent 70%)}
+.nh{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 22px 4px}
+.nh .t{display:flex;align-items:baseline;gap:14px}.nh .no{font:700 12px var(--mono);color:var(--c);letter-spacing:.14em}.nh h2{font:800 clamp(18px,2.4vw,24px) var(--sans);letter-spacing:-.02em}
+.nh .meta{display:flex;gap:22px}.nh .meta div{text-align:right}.nh .meta small{display:block;font:600 9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mu)}.nh .meta b{font:800 22px var(--sans);font-variant-numeric:tabular-nums;letter-spacing:-.02em}.nh .meta b.up{color:var(--ok)}
+.nb{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr) 190px;gap:22px;padding:14px 22px 22px;align-items:start}
+.pod{display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:8px;align-items:end;min-height:240px;padding:6px 0}
+.pd{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
+.pd .av{position:relative;width:var(--s,54px);height:var(--s,54px);border-radius:50%;overflow:hidden;border:2px solid var(--pc);background:#1b2029;display:grid;place-items:center;font:800 15px var(--sans);color:var(--pc);box-shadow:0 0 0 4px rgba(255,255,255,.03),0 8px 24px color-mix(in srgb,var(--pc) 25%,transparent)}.pd .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pd .nm{margin:8px 0 2px;font:700 11.5px/1.2 var(--sans);max-width:100%;overflow-wrap:anywhere}.pd .vt{font:700 10.5px var(--mono);color:var(--mu)}
+.pd .bar{width:100%;margin-top:8px;border-radius:9px 9px 0 0;display:grid;place-items:start center;padding-top:8px;background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 40%,#12161c),color-mix(in srgb,var(--pc) 6%,#12161c));border:1px solid color-mix(in srgb,var(--pc) 45%,transparent);border-bottom:0;height:0;transition:height 1s cubic-bezier(.2,.9,.2,1)}
+.pd .bar b{font:800 28px var(--sans);color:var(--pc);letter-spacing:-.02em}
+.pd.p1{--pc:#e8c15a;--s:66px}.pd.p2{--pc:#c4ccd6}.pd.p3{--pc:#d08a52}
+.pd .crown{height:16px;margin-bottom:4px;color:#e8c15a;font-size:16px;line-height:1}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.mini div{padding:10px 10px 9px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02)}.mini b{display:block;font:800 18px var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--c)}.mini small{display:block;margin-top:2px;font:600 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mu)}
+.tph{margin-top:18px;display:grid;gap:9px}.tph div{display:grid;grid-template-columns:48px 1fr 34px;align-items:center;gap:10px;font:700 11px var(--mono);color:var(--mu)}.tph i{display:block;height:6px;border-radius:3px;background:#1b2029;overflow:hidden}.tph i u{display:block;height:100%;background:linear-gradient(90deg,#9b7d2d,#e8c15a);border-radius:3px}.tph b{color:var(--tx);text-align:right}.tph h4{font:700 9.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--mu2);margin-top:4px}
+.list{display:flex;flex-direction:column;gap:2px}
+.row{display:grid;grid-template-columns:30px 34px minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 10px 7px 6px;border-radius:10px;cursor:pointer;transition:background .15s}.row:hover{background:rgba(255,255,255,.035)}
+.row .pl{font:800 13px var(--mono);text-align:center;color:var(--mu2)}.row.r1 .pl{color:#e8c15a}.row.r2 .pl{color:#c4ccd6}.row.r3 .pl{color:#d08a52}
+.row .av{position:relative;width:34px;height:34px;border-radius:50%;overflow:hidden;background:#1b2029;border:1px solid var(--line2);display:grid;place-items:center;font:800 11px var(--sans);color:var(--mu)}.row .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.row .mid{min-width:0}.row .nm{display:flex;justify-content:space-between;gap:8px;font:700 13px var(--sans)}.row .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row .nm em{font:600 11px var(--mono);font-style:normal;color:var(--mu);flex:none}
+.row .tr{height:7px;margin-top:6px;border-radius:4px;background:#1b2029;overflow:hidden}.row .tr i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,color-mix(in srgb,var(--col) 55%,#000),var(--col));transition:width 1.1s cubic-bezier(.2,.9,.2,1)}
+.row .cn{text-align:right;min-width:54px}.row .cn b{display:block;font:800 17px var(--sans);font-variant-numeric:tabular-nums;letter-spacing:-.02em}.row .cn small{font:700 10px var(--mono);color:var(--ok)}.row .cn small.z{color:var(--mu2)}
+.don{display:flex;flex-direction:column;align-items:center;gap:12px}.don svg{width:170px;height:170px}.don .c{font:800 22px var(--sans)}
+.don text.big{font:800 28px var(--sans);fill:var(--tx)}.don text.sm{font:600 8.5px var(--mono);fill:var(--mu);letter-spacing:.16em}
+.lgd{width:100%;display:grid;gap:5px;font:600 11px var(--sans);color:var(--mu)}.lgd div{display:flex;align-items:center;gap:7px;min-width:0}.lgd i{width:8px;height:8px;border-radius:2px;flex:none}.lgd span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.lgd em{font:700 10.5px var(--mono);font-style:normal}
+.empty{padding:40px 10px;text-align:center;color:var(--mu);font:500 13px var(--sans)}
+/* ---------- таблица ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px 0}.filters input,.filters select{height:36px;padding:0 12px;border:1px solid var(--line2);border-radius:8px;background:#0b0e12;outline:0;font:600 12.5px var(--sans)}.filters input{flex:1;min-width:200px}.filters input:focus,.filters select:focus{border-color:var(--gold)}
+.tw{overflow:auto;margin:14px 0 0;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:980px}
+th{position:sticky;top:0;padding:10px 12px;text-align:left;font:700 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mu);background:#0f1217;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid #1a1f27;font:600 12px var(--sans);white-space:nowrap}tr:hover td{background:rgba(255,255,255,.02)}
+td.u b{display:block;font-weight:700}td.u small{font:500 10.5px var(--mono);color:var(--mu)}td.t{font:500 11px var(--mono);color:var(--mu)}
+.chip{display:inline-block;max-width:150px;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom;padding:3px 8px;border-radius:6px;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent);color:color-mix(in srgb,var(--c) 70%,#fff);font:700 11px var(--sans);cursor:pointer}.chip.none{color:var(--mu2);border-color:var(--line);background:none;cursor:default}
+.pg{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;font:600 11px var(--mono);color:var(--mu)}.pg div{display:flex;gap:6px}
+/* ---------- панель «кто за кого» ---------- */
+.dr{position:fixed;inset:0;z-index:40;pointer-events:none}.dr .bk{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .25s}.dr .pn{position:absolute;right:0;top:0;bottom:0;width:min(440px,100%);padding:22px 20px;overflow:auto;border-left:1px solid var(--line2);background:#0d1015;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.9,.2,1)}
+.dr.on{pointer-events:auto}.dr.on .bk{opacity:1}.dr.on .pn{transform:none}
+.dr h3{font:800 20px var(--sans);letter-spacing:-.01em}.dr .sub{margin:4px 0 16px;font:500 11.5px var(--mono);color:var(--mu)}.dr .x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:8px;border:1px solid var(--line2);font-size:16px}
+.dr .big{display:flex;gap:20px;margin-bottom:16px;padding:14px 0;border-block:1px solid var(--line)}.dr .big div b{display:block;font:800 26px var(--sans)}.dr .big small{font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.vl{display:flex;flex-direction:column}.vl div{display:flex;justify-content:space-between;gap:10px;padding:9px 2px;border-bottom:1px solid #1a1f27;font:600 13px var(--sans)}.vl small{font:500 11px var(--mono);color:var(--mu)}
+.foot{margin-top:30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font:500 11px var(--mono);color:var(--mu2)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);padding:10px 16px;border:1px solid var(--line2);border-radius:10px;background:#0b0e12;font:600 12px var(--sans);opacity:0;transition:all .3s;z-index:60}.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:1180px){.kpis{grid-template-columns:repeat(3,1fr)}.nb{grid-template-columns:minmax(0,1fr) 190px}.pod{grid-column:1/-1}.two{grid-template-columns:1fr}}
+@media (max-width:860px){.app{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;align-items:center;overflow-x:auto;padding:12px 14px;border-right:0;border-bottom:1px solid var(--line)}.nav{flex-direction:row}.nav a{white-space:nowrap}.nav .sep,.side-foot,.brand small{display:none}.nb{grid-template-columns:1fr}.don{flex-direction:row;flex-wrap:wrap;justify-content:center}.kpis{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:24px 30px minmax(0,1fr) auto}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* источники: Telegram / сайт */
+:root{--tg:#3fa9f5;--web:#ffb02e}
+.srcseg button{display:inline-flex;align-items:center;gap:6px}.srcseg .dt,.srcseg .dw,.sbadge i{display:inline-block;width:7px;height:7px;border-radius:50%}.srcseg .dt,.sbadge.t i{background:var(--tg)}.srcseg .dw,.sbadge.w i{background:var(--web)}
+.srcp{padding:22px 22px 20px;margin-top:0;margin-bottom:14px;overflow:hidden;position:relative}
+.srcp::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(520px 200px at 0% 0%,rgba(63,169,245,.10),transparent 70%),radial-gradient(520px 200px at 100% 0%,rgba(255,176,46,.09),transparent 70%)}
+.sp-h{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}.sp-h h2{margin:0;font:800 15px var(--sans);letter-spacing:-.01em}.sp-h small{display:block;margin-top:3px;font:500 11px var(--mono);color:var(--mu)}
+.sp-bar{position:relative;display:flex;height:46px;border-radius:12px;overflow:hidden;border:1px solid var(--line2);background:#0b0e12}
+.sp-bar b{display:flex;align-items:center;gap:10px;padding:0 16px;min-width:0;white-space:nowrap;font:800 14px var(--sans);letter-spacing:-.01em;transition:flex-grow 1s cubic-bezier(.2,.9,.2,1);color:#06121c}
+.sp-bar b.t{background:linear-gradient(90deg,#2d8fd9,var(--tg))}.sp-bar b.w{background:linear-gradient(90deg,var(--web),#ff9a3c);color:#2a1500;justify-content:flex-end}
+.sp-bar b em{font:700 11px var(--mono);font-style:normal;opacity:.75}
+.sp-cards{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.sp-c{border:1px solid var(--line2);border-radius:12px;padding:14px 16px;background:rgba(10,12,15,.55)}
+.sp-c.t{border-top:2px solid var(--tg)}.sp-c.w{border-top:2px solid var(--web)}
+.sp-c h3{margin:0;display:flex;align-items:center;gap:8px;font:800 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}.sp-c.t h3{color:var(--tg)}.sp-c.w h3{color:var(--web)}
+.sp-c .n{display:flex;align-items:baseline;gap:10px;margin:8px 0 10px}.sp-c .n b{font:800 40px/1 var(--sans);letter-spacing:-.04em;font-variant-numeric:tabular-nums}.sp-c .n span{font:700 13px var(--mono);color:var(--mu)}
+.sp-c .sx{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sp-c .sx div{padding-top:8px;border-top:1px solid var(--line)}.sp-c .sx b{display:block;font:800 16px var(--sans);font-variant-numeric:tabular-nums}.sp-c .sx small{font:600 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mu2)}
+.sp-ch{position:relative;margin-top:16px}.sp-ch h4{margin:0 0 8px;font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mu2);display:flex;justify-content:space-between}.sp-ch h4 span{display:flex;gap:14px}.sp-ch h4 i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.sp-ch svg{display:block;width:100%;height:auto}
+.row .ss{display:flex;height:3px;margin-top:4px;border-radius:2px;overflow:hidden;background:#1b2029}.row .ss b{display:block;height:100%}.row .ss b.t,.sl i.t{background:var(--tg)}.row .ss b.w,.sl i.w{background:var(--web)}
+.row .sl{display:flex;gap:10px;margin-top:3px;font:600 10px var(--mono);color:var(--mu2)}.row .sl i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:0}
+.sbadge{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:99px;font:700 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line2);color:var(--mu);white-space:nowrap}.sbadge.t{color:var(--tg);border-color:rgba(63,169,245,.35);background:rgba(63,169,245,.08)}.sbadge.w{color:var(--web);border-color:rgba(255,176,46,.35);background:rgba(255,176,46,.08)}
+.nb2{display:flex;gap:8px;align-items:center;margin-top:8px}
+@media (max-width:760px){.sp-cards{grid-template-columns:1fr}.sp-bar{height:40px}.sp-bar b{padding:0 10px;font-size:12px}}
+
+/* сводка лидеров */
+.lead{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.lc{position:relative;display:block;text-align:left;padding:14px 14px 12px;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--panel),#0e1116);color:inherit;cursor:pointer;overflow:hidden;transition:border-color .2s,transform .2s}
+.lc:hover{border-color:color-mix(in srgb,var(--c) 55%,var(--line));transform:translateY(-2px)}
+.lc::before{content:'';position:absolute;left:0;top:0;right:0;height:2px;background:var(--c);opacity:.85}
+.lc small{display:flex;justify-content:space-between;font:700 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mu)}.lc small em{font-style:normal;color:var(--mu2)}
+.lc .who{display:flex;align-items:center;gap:10px;margin:10px 0 8px}
+.lc .av{position:relative;flex:none;width:42px;height:42px;border-radius:50%;overflow:hidden;background:#1b2029;border:1.5px solid var(--c);display:grid;place-items:center;font:800 12px var(--sans);color:var(--mu)}.lc .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lc .who b{display:block;font:800 14px/1.15 var(--sans);letter-spacing:-.01em}.lc .who span{font:600 11px var(--mono);color:var(--mu)}
+.lc .pc{font:800 24px/1 var(--sans);letter-spacing:-.03em;font-variant-numeric:tabular-nums}.lc .pc i{font-style:normal;font-size:13px;color:var(--mu)}
+.lc .ss2{display:flex;height:4px;margin-top:9px;border-radius:2px;overflow:hidden;background:#1b2029}.lc .ss2 b{display:block;height:100%}.lc .ss2 b.t{background:var(--tg)}.lc .ss2 b.w{background:var(--web)}
+.lc .gp{margin-top:7px;font:600 10.5px var(--mono);color:var(--mu2)}.lc .gp b{color:var(--ok)}
+.lc.empty .who b{color:var(--mu2)}
+@media (max-width:1180px){.lead{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.lead{gap:8px}.lc{padding:12px 11px}.lc .av{width:36px;height:36px}.lc .pc{font-size:21px}}
+/* лента */
+.feedp{margin-top:14px;margin-bottom:6px;padding:18px 20px}
+.fd{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}.fd:first-of-type{border-top:0}
+.fd b{font:700 13px var(--sans)}.fd small{display:block;font:500 11px var(--mono);color:var(--mu2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fd em{font:600 11px var(--mono);font-style:normal;color:var(--mu)}
+.fd.new{animation:fdIn 1.6s ease-out}@keyframes fdIn{0%{background:rgba(77,220,154,.18)}100%{background:transparent}}
+.st.warn i{background:#ffb02e;animation:pulse 1s infinite}.st.warn{color:#ffb02e}
+.flash{animation:flash 1.1s ease-out}@keyframes flash{0%{box-shadow:0 0 0 0 rgba(232,193,90,.55);border-color:var(--gold)}100%{box-shadow:0 0 0 14px rgba(232,193,90,0)}}
+</style>
+</head>
+<body>
+<section id="gate">
+  <div class="gate-c">
+    <div class="lg"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0b0d10" stroke="#2c3340"/><path d="M7 22V10l9 7 9-7v12" fill="none" stroke="#e8c15a" stroke-width="2.4" stroke-linejoin="round"/></svg><div><h1>Центр подсчёта</h1><small>Премия 2027 · админ</small></div></div>
+    <label class="fld"><span>Адрес сервера голосов</span><input id="gUrl" placeholder="https://premia.your-name.workers.dev" autocomplete="off" spellcheck="false"></label>
+    <label class="fld"><span>Ключ администратора</span><input id="gKey" type="password" placeholder="••••••••" autocomplete="off"></label>
+    <div class="row"><button class="btn pri" id="gGo">Подключиться</button></div>
+    <div class="err" id="gErr"></div>
+    <div class="or">или без сервера</div>
+    <div class="alt"><button class="btn" id="gDemo">Демо-данные</button><label class="btn" style="cursor:pointer">Импорт из Telegram<input id="gFile" type="file" accept=".json,.txt" hidden></label></div>
+  </div>
+</section>
+<div class="app" id="app" hidden>
+  <aside class="side">
+    <div class="brand"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0b0d10" stroke="#2c3340"/><path d="M7 22V10l9 7 9-7v12" fill="none" stroke="#e8c15a" stroke-width="2.4" stroke-linejoin="round"/></svg><div><b>Центр подсчёта</b><small>Премия 2027</small></div></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot"><div class="st" id="st"><i></i><span>—</span></div><button class="btn sm" id="bOut">Выйти</button></div>
+  </aside>
+  <main>
+    <div class="top">
+      <div><h1>Итоги голосования</h1><p id="sub">—</p></div>
+      <div class="tools">
+        <div class="seg srcseg" id="segSrc"><button data-s="" class="on">Все</button><button data-s="tg"><i class="dt"></i>Telegram</button><button data-s="web"><i class="dw"></i>Сайт</button></div>
+        <button class="sw on" id="swAuto"><i></i>Автообновление</button>
+        <button class="btn sm" id="bRef">Обновить</button>
+        <button class="btn sm" id="bCsv">Экспорт CSV</button>
+        <button class="btn sm" id="bJson">JSON</button>
+      </div>
+    </div>
+    <section class="lead" id="lead"></section>
+    <section class="panel srcp" id="srcPanel"></section>
+    <section class="kpis" id="kpis"></section>
+    <section class="two">
+      <div class="panel"><div class="ph"><div><h2>Активность голосов</h2><small id="actSub">—</small></div><div class="seg" id="segAct"><button data-m="h" class="on">24 часа</button><button data-m="d">14 дней</button></div></div><div class="chart" id="chAct"></div></div>
+      <div class="panel"><div class="ph"><div><h2>Когда голосуют</h2><small>по часам суток · МСК · за всё время</small></div></div><div class="hours" id="hours"></div></div>
+    </section>
+    <section class="panel feedp" id="feedP"></section>
+    <div id="noms"></div>
+    <section class="panel" id="voters">
+      <div class="ph"><div><h2>Кто за кого</h2><small id="vSub">—</small></div></div>
+      <div class="filters"><input id="fq" placeholder="Поиск: @ник, имя, id, кандидат…"><select id="fn"></select><select id="fs"><option value="new">Сначала новые</option><option value="old">Сначала старые</option></select></div>
+      <div class="tw"><table><thead id="thd"></thead><tbody id="tbd"></tbody></table></div>
+      <div class="pg"><span id="pgI">—</span><div><button class="btn sm" id="pgP">←</button><button class="btn sm" id="pgN">→</button></div></div>
+    </section>
+    <div class="foot"><span id="ft">—</span><span>Данные обновляются с сервера голосов. Один голос на пользователя Telegram.</span></div>
+  </main>
+</div>
+<div class="dr" id="dr"><div class="bk"></div><aside class="pn" id="drp"></aside></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ============================================================
+   НОМИНАЦИИ (генерируется из index.html сайта голосования)
+   v — значение, которое сайт отправляет как голос; row — ключ номинации
+   ============================================================ */
+const NOMS = /*NOMS*/[{"nom": "Ходящий", "title": "Самый Ходящий", "cands": [{"v": "Алиев", "row": "Ходящий", "name": "Алиев Александр", "img": "photo/Алиев.jpg"}, {"v": "Галкин", "row": "Ходящий", "name": "Галкин Виталий", "img": "photo/СамыйХодящий/Галкин.png"}, {"v": "Кирилл", "row": "Ходящий", "name": "Литнарович Кирилл", "img": "photo/СамыйХодящий/литнарович.png"}, {"v": "Голиков", "row": "Ходящий", "name": "Голиков Матвей", "img": "photo/Голиков.jpg"}, {"v": "Куликов", "row": "Ходящий", "name": "Куликов Виталий", "img": "photo/Куликов.jpg"}, {"v": "Берсенев", "row": "Ходящий", "name": "Берсенев Илья", "img": "photo/Другие/Берсенев.jpg"}]}, {"nom": "Прогульщик", "title": "Главный прогульщик", "cands": [{"v": "Полякова", "row": "Прогульщик", "name": "Полякова Екатерина", "img": "photo/Другие/Полякова.jpg"}, {"v": "Иванова", "row": "Прогульщик", "name": "Иванова Маргарита", "img": "photo/Другие/Рита.jpg"}, {"v": "Фролов", "row": "Прогульщик", "name": "Фролов Андрей", "img": "photo/Фролов.jpg"}, {"v": "Самсонов", "row": "Прогульщик", "name": "Самсонов Константин", "img": "photo/Самсонов.png"}, {"v": "Караев", "row": "Прогульщик", "name": "Караев Эльчин", "img": "photo/Другие/Эльчин.jpg"}, {"v": "Сенченко", "row": "Прогульщик", "name": "Сенченко Дмитрий", "img": "photo/Сенченко.jpg"}]}, {"nom": "Флешбэк", "title": "Флешбэк года", "cands": [{"v": "Караев Эльчин", "row": "Флешбэк", "name": "Караев Эльчин", "img": "photo/Другие/Эльчин.jpg"}, {"v": "Лукин Александр", "row": "Флешбэк", "name": "Лукин Александр", "img": "photo/Другие/Лукин.jpg"}, {"v": "Сериков Александр", "row": "Флешбэк", "name": "Сериков Александр", "img": "photo/Другие/Тигр.jpg"}, {"v": "Литнарович Кирилл", "row": "Флешбэк", "name": "Литнарович Кирилл", "img": "photo/Другие/литнарович.jpg"}, {"v": "Куликов Виталий", "row": "Флешбэк", "name": "Куликов Виталий", "img": "photo/Куликов.jpg"}]}, {"nom": "Прорыв", "title": "Заводчанин года", "cands": [{"v": "Берсенев Илья и Сенченко Дмитрий", "row": "Завод", "name": "Берсенев Илья и Сенченко Дмитрий", "img": ""}, {"v": "Голиков Матвей и Лукин Александр", "row": "Завод", "name": "Голиков Матвей и Лукин Александр", "img": ""}, {"v": "Сериков Александр и Чертовских Андрей", "row": "Завод", "name": "Сериков Александр и Чертовских Андрей", "img": ""}, {"v": "Куликов Виталий и Сидоров Никита", "row": "Завод", "name": "Куликов Виталий и Сидоров Никита", "img": ""}]}, {"nom": "Прилежный", "title": "Прилежный студент", "cands": [{"v": "Галкин Виталий", "row": "Прилежный", "name": "Галкин Виталий", "img": "photo/Галкин.jpg"}, {"v": "Голиков Матвей", "row": "Прилежный", "name": "Голиков Матвей", "img": "photo/Голиков.jpg"}, {"v": "Алиев Александр", "row": "Прилежный", "name": "Алиев Александр", "img": "photo/Алиев.jpg"}, {"v": "Сидоров Никита", "row": "Прилежный", "name": "Сидоров Никита", "img": "photo/Сидоров.jpg"}, {"v": "Иванова Маргарита", "row": "Прилежный", "name": "Иванова Маргарита", "img": "photo/Другие/Рита.jpg"}, {"v": "Чертовских Андрей", "row": "Прилежный", "name": "Чертовских Андрей", "img": "photo/Чертовских.jpg"}]}, {"nom": "Машина", "title": "Машина года", "cands": [{"v": "Галкин Виталий", "row": "Машина", "name": "Галкин Виталий", "img": "photo/Галкин.jpg"}, {"v": "Сенченко Дмитрий", "row": "Машина", "name": "Сенченко Дмитрий", "img": "photo/Сенченко.jpg"}, {"v": "Фролов Андрей", "row": "Машина", "name": "Фролов Андрей", "img": "photo/Фролов.jpg"}, {"v": "Самсонов Константин", "row": "Машина", "name": "Самсонов Константин", "img": "photo/Самсонов.png"}, {"v": "Куликов Виталий", "row": "Машина", "name": "Куликов Виталий", "img": "photo/Куликов.jpg"}, {"v": "Сериков Александр", "row": "Машина", "name": "Сериков Александр", "img": "photo/Другие/Тигр.jpg"}]}, {"nom": "Пара", "title": "Король Группы", "cands": [{"v": "Алиев", "row": "Победитель", "name": "Алиев Александр", "img": "photo/Алиев.jpg"}, {"v": "Берсенев", "row": "Победитель", "name": "Берсенёв Илья", "img": "photo/Другие/Берсенев.jpg"}, {"v": "Галкин", "row": "Победитель", "name": "Галкин Виталий", "img": "photo/СамыйХодящий/Галкин.png"}, {"v": "Голиков", "row": "Победитель", "name": "Голиков Матвей", "img": "photo/Голиков.jpg"}, {"v": "Иванова", "row": "Победитель", "name": "Иванова Маргарита", "img": "photo/Другие/Рита.jpg"}, {"v": "Куликов", "row": "Победитель", "name": "Куликов Виталий", "img": "photo/Куликов.jpg"}, {"v": "Литнарович", "row": "Победитель", "name": "Литнарович Кирилл", "img": "photo/Литнарович.jpg"}, {"v": "Лукин", "row": "Победитель", "name": "Лукин Александр", "img": "photo/Лукин.jpg"}, {"v": "Полякова", "row": "Победитель", "name": "Полякова Екатерина", "img": "photo/Другие/Полякова.jpg"}, {"v": "Самсонов", "row": "Победитель", "name": "Самсонов Константин", "img": "photo/Самсонов.png"}, {"v": "Сенченко", "row": "Победитель", "name": "Сенченко Дмитрий", "img": "photo/Сенченко.jpg"}, {"v": "Сериков", "row": "Победитель", "name": "Сериков Александр", "img": "photo/Тигр.jpg"}, {"v": "Сидоров", "row": "Победитель", "name": "Сидоров Никита", "img": "photo/Сидоров.jpg"}, {"v": "Фролов", "row": "Победитель", "name": "Фролов Андрей", "img": "photo/Фролов.jpg"}, {"v": "Чертовских", "row": "Победитель", "name": "Чертовских Андрей", "img": "photo/Чертовских.jpg"}]}]/*END*/;
+const ACC = ['#47f0a0','#e0554a','#ff3a9a','#ffb02e','#e8c26a','#ff4d3a','#e8c15a'];
+const SHORT = ['Ходящий','Прогульщик','Флешбэк','Завод','Студент','Машина','Король'];
+const PAL = ['#e8c15a','#47f0a0','#4aa8ff','#ff6a8a','#b78cff','#ff9a3c','#35d6d6','#9aa5b4'];
+const CFG = { photoBase: '', refreshSec: 15 };
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const plural = (n, a, b, c) => { const m = n % 100, k = n % 10; return (m > 10 && m < 20) ? c : k === 1 ? a : (k > 1 && k < 5) ? b : c; };
+const ini = s => String(s).split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0]).join('').toUpperCase();
+const ls = { get(k, d){ try{ const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; }catch(_){ return d; } }, set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(_){} } };
+let STATE = { mode: '', votes: [], at: 0, err: '' };
+let timer = 0, actMode = 'h', page = 0, SRC = '';
+const srcOf = v => v.s || ((v.userId && v.userId !== 'Аноним') ? 'tg' : 'web');
+const SRCN = { tg: 'Telegram', web: 'Сайт' };
+const VIEW = () => SRC ? STATE.votes.filter(v => srcOf(v) === SRC) : STATE.votes;
+const sbadge = v => { const k = srcOf(v); return `<span class="sbadge ${k === 'tg' ? 't' : 'w'}"><i></i>${SRCN[k]}</span>`; };
+
+/* ---------- время по Москве ---------- */
+const fmtMsk = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+const msk = ts => { const p = fmtMsk.format(ts); return { d: p.slice(0, 10), h: +p.slice(11, 13), m: +p.slice(14, 16), full: p }; };
+const dayKey = ts => msk(ts).d;
+const shortDate = d => d.slice(8, 10) + '.' + d.slice(5, 7);
+const fmtDT = ts => { const m = msk(ts); return shortDate(m.d) + ' ' + m.full.slice(11, 16); };
+const ago = ts => { const s = Math.max(0, (Date.now() - ts) / 1000); if(s < 60) return 'только что'; if(s < 3600) return Math.floor(s / 60) + ' мин назад'; if(s < 86400) return Math.floor(s / 3600) + ' ч назад'; return Math.floor(s / 86400) + ' дн назад'; };
+
+/* ---------- агрегация ---------- */
+function analyze(votes){
+  const today = dayKey(Date.now()), now = Date.now();
+  const A = { total: votes.length, today: 0, hour: 0, full: 0, ballots: 0, noms: [], byHour: Array(24).fill(0), last: 0, peakH: -1 };
+  votes.forEach(v => { const m = msk(v.ts); if(m.d === today) A.today++; if(now - v.ts < 3600e3) A.hour++; A.byHour[m.h]++; A.last = Math.max(A.last, v.ts); });
+  A.peakH = A.byHour.some(x => x) ? A.byHour.indexOf(Math.max(...A.byHour)) : -1;
+  NOMS.forEach((n, i) => {
+    const map = new Map(); n.cands.forEach(c => map.set(c.v, { c, n: 0, today: 0, voters: [] }));
+    let tot = 0, tod = 0;
+    votes.forEach(v => { const pick = v.votes?.[n.cands[0]?.row]; if(pick == null) return; let e = map.get(pick); if(!e){ e = { c: { v: pick, name: pick, img: '', row: n.cands[0].row, ghost: 1 }, n: 0, today: 0, voters: [] }; map.set(pick, e); }
+      e.n++; tot++; const t = dayKey(v.ts) === today; if(t){ e.today++; tod++; } e.voters.push(v); });
+    const rows = [...map.values()].sort((a, b) => b.n - a.n || a.c.name.localeCompare(b.c.name, 'ru'));
+    rows.forEach(r => { r.tg = r.voters.filter(v => srcOf(v) === 'tg').length; r.web = r.n - r.tg; });
+    let place = 0, prev = -1; rows.forEach((r, k) => { if(r.n !== prev){ place = k + 1; prev = r.n; } r.place = place; r.pct = tot ? r.n / tot * 100 : 0; });
+    A.noms.push({ i, n, rows, total: tot, today: tod }); A.ballots += tot;
+  });
+  A.full = votes.filter(v => NOMS.every(n => v.votes?.[n.cands[0]?.row] != null)).length;
+  return A;
+}
+function buckets(votes, mode){
+  const now = Date.now(); const out = [];
+  if(mode === 'h'){ for(let k = 23; k >= 0; k--){ const t = now - k * 3600e3, m = msk(t); out.push({ key: m.d + ' ' + m.h, label: String(m.h).padStart(2, '0') + ':00', n: 0, ttl: shortDate(m.d) + ' ' + String(m.h).padStart(2, '0') + ':00–' + String((m.h + 1) % 24).padStart(2, '0') + ':00' }); } votes.forEach(v => { const m = msk(v.ts), b = out.find(x => x.key === m.d + ' ' + m.h); if(b) b.n++; }); }
+  else { for(let k = 13; k >= 0; k--){ const d = dayKey(now - k * 864e5); out.push({ key: d, label: shortDate(d), n: 0, ttl: shortDate(d) }); } votes.forEach(v => { const b = out.find(x => x.key === dayKey(v.ts)); if(b) b.n++; }); }
+  return out;
+}
+
+/* ---------- мелкие графики ---------- */
+function spark(vals, color){
+  const w = 70, h = 26, mx = Math.max(1, ...vals); const pts = vals.map((v, i) => [i / (vals.length - 1 || 1) * w, h - 2 - v / mx * (h - 4)]);
+  const d = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('');
+  return `<svg class="sp" viewBox="0 0 ${w} ${h}"><path d="${d}L${w} ${h}L0 ${h}Z" fill="${color}" opacity=".14"/><path d="${d}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+}
+function donut(rows, total, color){
+  const R = 62, C = 2 * Math.PI * R; let off = 0, s = '';
+  const top = rows.filter(r => r.n > 0).slice(0, 7), rest = rows.filter(r => r.n > 0).slice(7).reduce((a, r) => a + r.n, 0);
+  const segs = top.map((r, i) => ({ n: r.n, c: PAL[i % PAL.length], name: r.c.name })); if(rest) segs.push({ n: rest, c: '#3b4350', name: 'Остальные' });
+  segs.forEach(g => { const len = g.n / total * C; s += `<circle cx="85" cy="85" r="${R}" fill="none" stroke="${g.c}" stroke-width="16" stroke-dasharray="${Math.max(0, len - 2).toFixed(2)} ${(C - Math.max(0, len - 2)).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 85 85)"/>`; off += len; });
+  return { svg: `<svg viewBox="0 0 170 170"><circle cx="85" cy="85" r="${R}" fill="none" stroke="#1b2029" stroke-width="16"/>${s}<text x="85" y="88" text-anchor="middle" class="big">${total}</text><text x="85" y="106" text-anchor="middle" class="sm">ГОЛОСОВ</text></svg>`, segs };
+}
+
+/* ---------- отрисовка ---------- */
+function photo(c){ const src = c.img ? CFG.photoBase + c.img : ''; return `${src ? `<img src="${esc(src)}" alt="" loading="lazy" onerror="this.remove()">` : ''}${esc(ini(c.name))}`; }
+function countUp(el, to, ms = 900){ const t0 = performance.now(), from = 0; const f = now => { const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(from + (to - from) * e); if(k < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }
+let A = null;
+function render(){
+  A = analyze(VIEW()); renderSrc();
+  paintStatus(); renderLead(); renderFeed();
+  $('#sub').textContent = (STATE.mode === 'demo' ? 'демо · ' : '') + (A.last ? 'последний голос ' + ago(A.last) : 'пока нет голосов');
+  /* показатели */
+  const byDay = buckets(VIEW(), 'd').map(b => b.n), byH = buckets(VIEW(), 'h').map(b => b.n);
+  const kp = [
+    { t: 'Всего проголосовало', v: A.total, s: 'уникальных участников', c: '#e8c15a', sp: byDay, hi: 1 },
+    { t: 'Голосов сегодня', v: A.today, s: `<em>+${A.hour}</em> за последний час`, c: '#47f0a0', sp: byH },
+    { t: 'Прошли все номинации', v: A.full, s: A.total ? Math.round(A.full / A.total * 100) + '% участников' : '—', c: '#4aa8ff' },
+    { t: 'Отдано выборов', v: A.ballots, s: 'по ' + NOMS.length + ' номинациям', c: '#b78cff' },
+    { t: 'Пик активности', v: A.peakH < 0 ? '—' : String(A.peakH).padStart(2, '0') + ':00', s: A.peakH < 0 ? '' : A.byHour[A.peakH] + ' ' + plural(A.byHour[A.peakH], 'голос', 'голоса', 'голосов') + ' в этот час', raw: 1, c: '#ff9a3c' },
+    { t: 'Последний голос', v: A.last ? fmtDT(A.last).slice(6) : '—', s: A.last ? ago(A.last) : 'пока никого', raw: 1, c: '#ff6a8a' }
+  ];
+  $('#kpis').innerHTML = kp.map((k, i) => `<div class="kpi${k.hi ? ' hi' : ''}"><small>${k.t}</small><b${k.raw ? '' : ' data-to="' + k.v + '"'}>${k.raw ? k.v : 0}</b><span>${k.s}</span>${k.sp ? spark(k.sp, k.c) : ''}</div>`).join('');
+  $$('#kpis b[data-to]').forEach(b => CONN.first ? countUp(b, +b.dataset.to) : (b.textContent = b.dataset.to));
+  drawAct(); drawHours();
+  /* навигация */
+  $('#nav').innerHTML = A.noms.map(x => `<a href="#nom${x.i}" data-i="${x.i}" style="--c:${ACC[x.i]}"><i>${String(x.i + 1).padStart(2, '0')}</i><span>${esc(x.n.title)}</span><em>${x.total}</em></a>`).join('') + '<div class="sep">Данные</div><a href="#voters"><i>↳</i><span>Кто за кого</span><em>' + A.total + '</em></a>';
+  /* номинации */
+  $('#noms').innerHTML = A.noms.map(x => nomHtml(x)).join('');
+  const noAnim = !CONN.first; if(noAnim) $$('.tr i[data-w]').forEach(i => { i.style.transition = 'none'; });
+  requestAnimationFrame(() => requestAnimationFrame(() => { $$('.tr i[data-w]').forEach(i => i.style.width = i.dataset.w + '%'); $$('.pd .bar[data-h]').forEach(b => b.style.height = b.dataset.h + 'px'); }));
+  drawVoters();
+  $('#ft').textContent = 'Премия 2027 · ' + A.total + ' ' + plural(A.total, 'участник', 'участника', 'участников') + ' · ' + A.ballots + ' выборов';
+}
+
+/* ---------- разбивка: Telegram / сайт ---------- */
+function renderSrc(){
+  const all = STATE.votes, tg = all.filter(v => srcOf(v) === 'tg'), wb = all.filter(v => srcOf(v) === 'web'), T = all.length || 1, today = dayKey(Date.now());
+  const full = l => l.filter(v => NOMS.every(n => v.votes?.[n.cands[0]?.row] != null)).length;
+  const card = (k, l) => `<div class="sp-c ${k === 'tg' ? 't' : 'w'}"><h3><span class="sbadge ${k === 'tg' ? 't' : 'w'}" style="border:0;background:none;padding:0"><i></i></span>${k === 'tg' ? 'Проголосовали в Telegram' : 'Проголосовали на сайте'}</h3>
+    <div class="n"><b data-to="${l.length}">0</b><span>${(l.length / T * 100).toFixed(0)}% всех</span></div>
+    <div class="sx"><div><b>${l.filter(v => dayKey(v.ts) === today).length}</b><small>сегодня</small></div><div><b>${full(l)}</b><small>все номинации</small></div><div><b>${l.length ? ago(Math.max(...l.map(v => v.ts))) : '—'}</b><small>последний</small></div></div></div>`;
+  /* график по дням: стек Telegram + сайт */
+  const days = []; for(let k = 13; k >= 0; k--){ const d = dayKey(Date.now() - k * 864e5); days.push({ d, tg: 0, web: 0 }); }
+  all.forEach(v => { const b = days.find(x => x.d === dayKey(v.ts)); if(b) b[srcOf(v)]++; });
+  const W = 760, H = 150, pl = 28, pb = 22, pt = 8, mx = Math.max(3, ...days.map(x => x.tg + x.web)), bw = (W - pl - 6) / days.length, Y = v => pt + (H - pt - pb) * (1 - v / mx);
+  let g = [0, .5, 1].map(f => { const y = Y(mx * f); return `<line x1="${pl}" x2="${W - 6}" y1="${y}" y2="${y}" stroke="#222831" stroke-dasharray="${f ? '3 4' : ''}"/><text x="${pl - 6}" y="${y + 3}" text-anchor="end" fill="#5d6572" font-size="9.5" font-family="JetBrains Mono,monospace">${Math.round(mx * f)}</text>`; }).join('');
+  const bars = days.map((x, i) => { const cx = pl + bw * i + bw * .17, w = bw * .66, yt = Y(x.tg), yw = Y(x.tg + x.web); return `<g><title>${shortDate(x.d)} · Telegram ${x.tg} · Сайт ${x.web}</title><rect x="${cx.toFixed(1)}" y="${yt.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(0, H - pb - yt).toFixed(1)}" rx="2" fill="#3fa9f5"/><rect x="${cx.toFixed(1)}" y="${yw.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(0, yt - yw).toFixed(1)}" rx="2" fill="#ffb02e"/><text x="${(cx + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle" fill="#5d6572" font-size="9" font-family="JetBrains Mono,monospace">${i % 2 === (days.length - 1) % 2 ? shortDate(x.d) : ''}</text></g>`; }).join('');
+  $('#srcPanel').innerHTML = `<div class="sp-h"><div><h2>Откуда голоса</h2><small>${all.length} ${plural(all.length, 'участник', 'участника', 'участников')}</small></div></div>
+    <div class="sp-bar"><b class="t" style="flex:${Math.max(tg.length, all.length ? .0001 : 1)}">Telegram <em>${tg.length} · ${(tg.length / T * 100).toFixed(0)}%</em></b><b class="w" style="flex:${Math.max(wb.length, all.length ? .0001 : 1)}"><em>${(wb.length / T * 100).toFixed(0)}% · ${wb.length}</em> Сайт</b></div>
+    <div class="sp-cards">${card('tg', tg)}${card('web', wb)}</div>
+    <div class="sp-ch"><h4><b>Голоса по дням · 14 дней</b><span><em><i style="background:#3fa9f5"></i>Telegram</em><em><i style="background:#ffb02e"></i>Сайт</em></span></h4><svg viewBox="0 0 ${W} ${H}">${g}${bars}</svg></div>`;
+  $$('#srcPanel b[data-to]').forEach(b => CONN.first ? countUp(b, +b.dataset.to) : (b.textContent = b.dataset.to));
+}
+/* ---------- сводка лидеров и лента ---------- */
+function renderLead(){
+  $('#lead').innerHTML = A.noms.map(x => { const r = x.rows[0], sec = x.rows[1], has = r && r.n > 0, gap = has && sec ? r.n - sec.n : 0;
+    return `<button type="button" class="lc${has ? '' : ' empty'}" style="--c:${ACC[x.i]}" data-go="nom${x.i}"><small><span>№ ${String(x.i + 1).padStart(2, '0')} · ${esc(SHORT[x.i] || x.n.title)}</span><em>${x.total}</em></small>
+      <div class="who"><div class="av">${has ? photo(r.c) : '·'}</div><div><b>${has ? esc(r.c.name) : 'Пока нет голосов'}</b><span>${has ? r.n + ' ' + plural(r.n, 'голос', 'голоса', 'голосов') : ''}</span></div></div>
+      ${has ? `<div class="pc">${r.pct.toFixed(0)}<i>%</i></div><div class="ss2"><b class="t" style="flex:${r.tg}"></b><b class="w" style="flex:${r.web}"></b></div><div class="gp">${gap > 0 ? 'отрыв <b>+' + gap + '</b>' : sec && sec.n === r.n ? 'делит 1 место' : ''}</div>` : ''}</button>`; }).join('');
+}
+let FEEDIDS = null;
+function renderFeed(){
+  const l = [...VIEW()].sort((a, b) => b.ts - a.ts).slice(0, 10);
+  $('#feedP').innerHTML = `<div class="ph" style="padding:0 0 10px"><div><h2>Последние голоса</h2></div></div>` + (l.length ? l.map(v => { const n = Object.keys(v.votes || {}).length;
+    return `<div class="fd${FEEDIDS && !FEEDIDS.has(v.id) ? ' new' : ''}">${sbadge(v)}<div><b>${v.u && v.u !== 'Аноним' ? '@' + esc(v.u) : esc(v.name || 'Аноним')}</b><small>${n} из ${NOMS.length} номинаций</small></div><em>${ago(v.ts)}</em></div>`; }).join('') : '<div class="empty" style="padding:14px 0;color:var(--mu2)">Пока никто не проголосовал</div>');
+  FEEDIDS = new Set(STATE.votes.map(v => v.id));
+}
+function nomHtml(x){
+  const { n, rows, total, today } = x, c = ACC[x.i], mx = Math.max(1, rows[0]?.n || 1);
+  const top = rows.filter(r => r.n > 0).slice(0, 3); const order = [top[1], top[0], top[2]];
+  const pod = total ? `<div class="pod">${order.map((r, k) => { if(!r) return '<div></div>'; const pl = [2, 1, 3][k]; return `<div class="pd p${pl}"><div class="crown">${pl === 1 ? '♛' : ''}</div><div class="av">${photo(r.c)}</div><div class="nm">${esc(r.c.name)}</div><div class="vt">${r.n} ${plural(r.n, 'голос', 'голоса', 'голосов')} · ${r.pct.toFixed(0)}%</div><div class="bar" data-h="${[84, 120, 62][k] * (.55 + .45 * r.n / mx)}"><b>${r.place}</b></div></div>`; }).join('')}</div>` : '<div class="empty">Голосов пока нет</div>';
+  const list = rows.map((r, k) => `<div class="row r${r.place}" data-nom="${x.i}" data-v="${esc(r.c.v)}" style="--col:${r.n ? PAL[Math.min(k, PAL.length - 1)] : '#3b4350'}"><div class="pl">${r.place}</div><div class="av">${photo(r.c)}</div><div class="mid"><div class="nm"><span>${esc(r.c.name)}</span><em>${r.pct.toFixed(1)}%</em></div><div class="tr"><i data-w="${(r.n / mx * 100).toFixed(1)}"></i></div>${r.n ? `<div class="ss" style="width:${(r.n / mx * 100).toFixed(1)}%"><b class="t" style="flex:${r.tg}"></b><b class="w" style="flex:${r.web}"></b></div><div class="sl"><span><i class="t"></i>${r.tg}</span><span><i class="w"></i>${r.web}</span></div>` : ''}</div><div class="cn"><b>${r.n}</b><small class="${r.today ? '' : 'z'}">${r.today ? '+' + r.today + ' сегодня' : '—'}</small></div></div>`).join('');
+  const d = donut(rows, total || 1, c);
+  const lg = d.segs.map(g => `<div><i style="background:${g.c}"></i><span>${esc(g.name)}</span><em>${(g.n / total * 100).toFixed(0)}%</em></div>`).join('');
+  const lead = rows[0], sec = rows[1], gap = lead && sec ? lead.n - sec.n : 0, share = A.total ? Math.round(total / A.total * 100) : 0;
+  const mini = total ? `<div class="mini"><div><b>${gap > 0 ? '+' + gap : '0'}</b><small>отрыв лидера</small></div><div><b>${lead ? lead.pct.toFixed(0) : 0}%</b><small>доля лидера</small></div><div><b>${share}%</b><small>участвовали</small></div></div>` : '';
+  return `<section class="nom" id="nom${x.i}" style="--c:${c}"><div class="nh"><div class="t"><span class="no">№ ${String(x.i + 1).padStart(2, '0')}</span><h2>${esc(n.title)}</h2></div><div class="meta"><div><small>Голосов</small><b>${total}</b></div><div><small>Сегодня</small><b class="${today ? 'up' : ''}">${today ? '+' + today : '0'}</b></div><div><small>Кандидатов</small><b>${rows.length}</b></div></div></div>
+  <div class="nb"><div>${pod}${mini}</div><div class="list">${list}</div><div class="don">${total ? d.svg + '<div class="lgd">' + lg + '</div>' : ''}</div></div></section>`;
+}
+/* ---------- график активности ---------- */
+function drawAct(){
+  const b = buckets(VIEW(), actMode), W = 760, H = 220, pl = 34, pr = 10, pt = 14, pb = 28, mx = Math.max(3, ...b.map(x => x.n)), step = Math.ceil(mx / 4), top = step * 4;
+  const bw = (W - pl - pr) / b.length, X = i => pl + bw * i + bw / 2, Y = v => pt + (H - pt - pb) * (1 - v / top);
+  let g = ''; for(let k = 0; k <= 4; k++){ const y = Y(k * step); g += `<line x1="${pl}" x2="${W - pr}" y1="${y}" y2="${y}" stroke="#222831" stroke-dasharray="${k ? '3 4' : ''}"/><text x="${pl - 8}" y="${y + 3.5}" text-anchor="end" fill="#5d6572" font-size="10" font-family="JetBrains Mono,monospace">${k * step}</text>`; }
+  const bars = b.map((x, i) => `<rect x="${(X(i) - bw * .32).toFixed(1)}" y="${Y(x.n).toFixed(1)}" width="${(bw * .64).toFixed(1)}" height="${(H - pb - Y(x.n)).toFixed(1)}" rx="3" fill="url(#gb)" opacity="${x.n ? 1 : .2}"/>`).join('');
+  const line = b.map((x, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(x.n).toFixed(1)).join('');
+  const every = actMode === 'h' ? 3 : 1; const labs = b.map((x, i) => i % every === (actMode === 'h' ? (b.length - 1) % 3 : 0) ? `<text x="${X(i)}" y="${H - 8}" text-anchor="middle" fill="#5d6572" font-size="9.5" font-family="JetBrains Mono,monospace">${x.label}</text>` : '').join('');
+  const hit = b.map((x, i) => `<rect x="${pl + bw * i}" y="${pt}" width="${bw}" height="${H - pt - pb}" fill="transparent" data-i="${i}"/>`).join('');
+  $('#chAct').innerHTML = `<svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8c15a"/><stop offset="1" stop-color="#e8c15a" stop-opacity=".25"/></linearGradient></defs>${g}${bars}<path d="${line}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.4" stroke-linejoin="round"/>${labs}${hit}</svg><div class="tip" id="tip"></div>`;
+  const tip = $('#tip'), box = $('#chAct');
+  $$('#chAct rect[data-i]').forEach(r => { r.addEventListener('mouseenter', () => { const x = b[+r.dataset.i]; tip.innerHTML = `${x.ttl}<b>${x.n} ${plural(x.n, 'голос', 'голоса', 'голосов')}</b>`; const rb = r.getBoundingClientRect(), bb = box.getBoundingClientRect(); tip.style.left = (rb.left - bb.left + rb.width / 2) + 'px'; tip.style.top = (Y(x.n) / H * $('svg', box).getBoundingClientRect().height + 6) + 'px'; tip.classList.add('on'); }); r.addEventListener('mouseleave', () => tip.classList.remove('on')); });
+  const sum = b.reduce((a, x) => a + x.n, 0); $('#actSub').textContent = (actMode === 'h' ? 'последние 24 часа' : 'последние 14 дней') + ' · ' + sum + ' ' + plural(sum, 'голос', 'голоса', 'голосов');
+}
+function drawHours(){
+  const mx = Math.max(1, ...A.byHour);
+  $('#hours').innerHTML = `<div class="hm">${A.byHour.map((v, h) => `<i style="--a:${(.06 + .94 * v / mx).toFixed(2)}" data-t="${String(h).padStart(2, '0')}:00 · ${v}"></i>`).join('')}</div><div class="hml"><span>00</span><span>06</span><span>12</span><span>18</span><span>23</span></div>
+    <div class="tph"><h4>Самые активные часы</h4>${A.byHour.map((v, h) => [h, v]).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([h, v]) => `<div><span>${String(h).padStart(2, '0')}:00</span><i><u style="width:${(v / mx * 100).toFixed(0)}%"></u></i><b>${v}</b></div>`).join('')}</div>`;
+}
+/* ---------- таблица ---------- */
+const PAGE = 25;
+function filtered(){
+  const q = $('#fq').value.trim().toLowerCase(), nf = $('#fn').value, so = $('#fs').value;
+  let l = VIEW().filter(v => {
+    if(nf){ const [ni, cv] = nf.split('|'); const n = NOMS[+ni]; if(v.votes?.[n.cands[0].row] !== cv) return false; }
+    if(!q) return true;
+    const hay = [v.u, v.name, v.userId, ...Object.values(v.votes || {}).map(x => { const f = NOMS.flatMap(n => n.cands).find(c => c.v === x); return (f ? f.name : x); })].join(' ').toLowerCase(); return hay.includes(q);
+  });
+  l.sort((a, b) => so === 'new' ? b.ts - a.ts : a.ts - b.ts); return l;
+}
+function candName(n, v){ const c = n.cands.find(c => c.v === v); return c ? c.name : v; }
+function drawVoters(){
+  const fn = $('#fn'); if(!fn.options.length){ fn.innerHTML = '<option value="">Все кандидаты</option>' + NOMS.map((n, i) => `<optgroup label="${esc(n.title)}">${n.cands.map(c => `<option value="${i}|${esc(c.v)}">${esc(c.name)}</option>`).join('')}</optgroup>`).join(''); }
+  $('#thd').innerHTML = '<tr><th>Время (МСК)</th><th>Источник</th><th>Участник</th>' + NOMS.map((n, i) => `<th style="color:${ACC[i]}">${String(i + 1).padStart(2, '0')} ${SHORT[i] || esc(n.title)}</th>`).join('') + '</tr>';
+  const l = filtered(), pages = Math.max(1, Math.ceil(l.length / PAGE)); page = Math.min(page, pages - 1);
+  $('#tbd').innerHTML = l.slice(page * PAGE, page * PAGE + PAGE).map(v => `<tr><td class="t">${fmtDT(v.ts)}</td><td>${sbadge(v)}</td><td class="u"><b>${v.u && v.u !== 'Аноним' ? '@' + esc(v.u) : esc(v.name || 'Аноним')}</b><small>${esc(v.name && v.u && v.u !== 'Аноним' ? v.name + ' · ' : '')}id ${esc(String(v.userId || '—').slice(0, 14))}</small></td>${NOMS.map((n, i) => { const x = v.votes?.[n.cands[0].row]; return `<td>${x != null ? `<span class="chip" style="--c:${ACC[i]}" data-nom="${i}" data-v="${esc(x)}" title="${esc(candName(n, x))}">${esc(candName(n, x))}</span>` : '<span class="chip none">—</span>'}</td>`; }).join('')}</tr>`).join('') || `<tr><td colspan="${NOMS.length + 2}" class="empty">Ничего не найдено</td></tr>`;
+  $('#pgI').textContent = l.length ? `${page * PAGE + 1}–${Math.min(l.length, page * PAGE + PAGE)} из ${l.length}` : '0'; $('#pgP').disabled = page === 0; $('#pgN').disabled = page >= pages - 1;
+  $('#vSub').textContent = VIEW().length + ' ' + plural(VIEW().length, 'бюллетень', 'бюллетеня', 'бюллетеней') + ' · нажми на кандидата — увидишь, кто за него';
+}
+/* ---------- панель кандидата ---------- */
+function openCand(ni, v){
+  const x = A.noms[ni], r = x.rows.find(r => r.c.v === v); if(!r) return;
+  const voters = [...r.voters].sort((a, b) => b.ts - a.ts);
+  $('#drp').innerHTML = `<button class="x" id="drX">✕</button><div class="sub" style="color:${ACC[ni]}">№ ${String(ni + 1).padStart(2, '0')} · ${esc(x.n.title)}</div><h3>${esc(r.c.name)}</h3><div class="sub">${r.place} место · ${r.pct.toFixed(1)}% голосов номинации</div>
+    <div class="big"><div><b>${r.n}</b><small>голосов</small></div><div><b>${r.today}</b><small>сегодня</small></div><div><b>${r.place}</b><small>место</small></div></div>
+    <div class="nb2"><span class="sbadge t"><i></i>Telegram ${r.tg}</span><span class="sbadge w"><i></i>Сайт ${r.web}</span></div>
+    <div class="vl">${voters.map(v => `<div><span>${sbadge(v)} ${v.u && v.u !== 'Аноним' ? '@' + esc(v.u) : esc(v.name || 'Аноним')}</span><small>${fmtDT(v.ts)}</small></div>`).join('') || '<div class="empty">Пока никто</div>'}</div>`;
+  $('#dr').classList.add('on'); $('#drX').onclick = closeDr;
+}
+const closeDr = () => $('#dr').classList.remove('on');
+/* ---------- данные ---------- */
+function toast(t){ const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(e._t); e._t = setTimeout(() => e.classList.remove('on'), 2600); }
+/* ---------- связь: ping → загрузка только при изменениях, повторы, пауза в фоне ---------- */
+const CONN = { fails: 0, sig: '', busy: false, lastOk: 0, ping: true, timer: 0, auto: true, first: true };
+async function api(path, ms = 9000){
+  const s = ls.get('premia_admin', {}), url = (s.url || '').replace(/\/+$/, ''), ctrl = new AbortController(), to = setTimeout(() => ctrl.abort(), ms);
+  try{
+    const r = await fetch(url + path, { headers: { Authorization: 'Bearer ' + s.key }, cache: 'no-store', signal: ctrl.signal });
+    if(r.status === 401){ const e = new Error('Неверный ключ администратора'); e.fatal = 1; throw e; }
+    if(!r.ok){ const e = new Error('Сервер ответил ' + r.status); e.status = r.status; throw e; }
+    return r;
+  }catch(e){ if(e.name === 'AbortError') throw new Error('Сервер долго не отвечает'); throw e; }
+  finally{ clearTimeout(to); }
+}
+async function loadLive(){ const d = await (await api('/stats', 15000)).json(); return (d.votes || []).map(v => ({ ...v, ts: +v.ts || 0 })); }
+const sigOf = l => l.length + ':' + l.reduce((m, v) => Math.max(m, v.ts), 0);
+function announce(old, nw){
+  const seen = new Set(old.map(v => v.id)), add = nw.filter(v => !seen.has(v.id)).sort((a, b) => a.ts - b.ts); if(!add.length) return;
+  const v = add[add.length - 1], who = v.u && v.u !== 'Аноним' ? '@' + v.u : (v.name || 'Аноним');
+  toast(add.length > 1 ? '+' + add.length + ' ' + plural(add.length, 'голос', 'голоса', 'голосов') : '+1 голос · ' + who + ' · ' + SRCN[srcOf(v)]);
+  $$('#kpis .kpi:first-child, .srcp').forEach(e => { e.classList.remove('flash'); void e.offsetWidth; e.classList.add('flash'); });
+}
+function paintStatus(){
+  const st = $('#st'); if(!st) return; let cls = 'demo', txt = '—';
+  if(STATE.mode === 'demo'){ txt = 'ДЕМО-ДАННЫЕ'; } else if(STATE.mode === 'import'){ txt = 'ИМПОРТ ИЗ ЧАТА'; }
+  else if(!navigator.onLine){ cls = 'err'; txt = 'НЕТ СЕТИ'; }
+  else if(CONN.fails >= 1){ cls = 'warn'; txt = CONN.fails > 2 ? 'НЕТ СВЯЗИ · ПОВТОР' : 'ПЕРЕПОДКЛЮЧЕНИЕ…'; }
+  else if(STATE.mode === 'live'){ cls = 'live'; const s = Math.round((Date.now() - CONN.lastOk) / 1000); txt = 'ОНЛАЙН · ' + (s < 4 ? 'сейчас' : s < 60 ? s + ' с назад' : Math.floor(s / 60) + ' мин назад'); }
+  st.className = 'st ' + cls; $('span', st).textContent = txt;
+}
+function planNext(){
+  clearTimeout(CONN.timer); if(STATE.mode !== 'live' || !CONN.auto) return;
+  const base = document.hidden ? 30000 : CONN.ping ? 5000 : 12000, d = CONN.fails ? Math.min(30000, 1500 * Math.pow(2, CONN.fails - 1)) : base;
+  CONN.timer = setTimeout(() => tick(false), d);
+}
+async function tick(force){
+  if(STATE.mode !== 'live' || CONN.busy) return; CONN.busy = true;
+  try{
+    let changed = true;
+    if(CONN.ping && !force){
+      try{ const p = await (await api('/ping', 7000)).json(); changed = (p.n + ':' + p.t) !== CONN.psig; CONN.psig = p.n + ':' + p.t; }
+      catch(e){ if(e.status === 404){ CONN.ping = false; } else throw e; }
+    }
+    if(changed || force || !CONN.ping){
+      const d = await loadLive(), sg = sigOf(d);
+      if(sg !== CONN.sig || force){ const old = STATE.votes; STATE.votes = d; CONN.sig = sg; STATE.at = Date.now(); if(!CONN.first) announce(old, d); render(); CONN.first = false; }
+    }
+    CONN.fails = 0; CONN.lastOk = Date.now(); STATE.err = '';
+  }catch(e){
+    if(e.fatal){ STATE.mode = ''; $('#app').hidden = true; $('#gate').hidden = false; $('#gErr').textContent = e.message; CONN.busy = false; return; }
+    CONN.fails++; if(STATE.err !== e.message){ STATE.err = e.message; toast(e.message === 'Failed to fetch' ? 'Нет связи с сервером' : e.message); }
+  }
+  CONN.busy = false; paintStatus(); planNext();
+}
+async function refresh(manual){ if(STATE.mode === 'live'){ CONN.fails = 0; await tick(true); if(manual) toast('Обновлено'); } else { render(); if(manual) toast('Обновлено'); } }
+function schedule(){ clearTimeout(CONN.timer); CONN.auto = $('#swAuto').classList.contains('on'); if(STATE.mode === 'live') planNext(); }
+document.addEventListener('visibilitychange', () => { if(!document.hidden && STATE.mode === 'live') tick(false); });
+addEventListener('online', () => { CONN.fails = 0; if(STATE.mode === 'live') tick(false); });
+addEventListener('offline', paintStatus);
+setInterval(() => { if(!document.hidden) paintStatus(); }, 1000);
+function enter(mode, votes){ STATE = { mode, votes, at: Date.now(), err: '' }; CONN.fails = 0; CONN.first = true; CONN.lastOk = Date.now(); CONN.sig = sigOf(votes); CONN.psig = CONN.sig; FEEDIDS = null; $('#gate').hidden = true; $('#app').hidden = false; render(); CONN.first = false; schedule(); }
+/* демо */
+function demoVotes(){
+  let s = 20271; const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280; const out = [], now = Date.now(), names = ['kirill_l','alex_g','matvey','vitalik','ritulya','kate_p','andrey_t','dima_s','kostya','elchin','ilya_b','nikita','sasha_s','mari','lukin_a'];
+  for(let i = 0; i < 168; i++){
+    const age = Math.pow(rnd(), 1.7) * 3 * 864e5, ts = now - age, votes = {};
+    NOMS.forEach((n, ni) => { if(rnd() < .04 + (i % 11 === 0 ? .1 : 0)) return; const w = n.cands.map((_, k) => Math.pow(.82, (k * 2 + ni * 3) % 7) + .12 + (k === ni % n.cands.length ? .5 : 0)); const sum = w.reduce((a, b) => a + b, 0); let r = rnd() * sum, k = 0; for(; k < w.length - 1; k++){ r -= w[k]; if(r <= 0) break; } votes[n.cands[0].row] = n.cands[k].v; });
+    out.push({ id: 'd' + i, userId: String(500000000 + i * 7919), u: i % 9 === 0 ? 'Аноним' : names[i % names.length] + (i >= names.length ? i : ''), name: '', votes, ts, s: rnd() < .64 ? 'tg' : 'web' });
+  }
+  return out;
+}
+/* импорт из экспорта чата Telegram */
+function importChat(text){
+  const out = [], seen = new Set(); let data = null; try{ data = JSON.parse(text); }catch(_){}
+  const msgs = data?.messages || (Array.isArray(data) ? data : null);
+  const push = (txt, ts, idv) => { if(!/проголосовал за/i.test(txt)) return; const mm = txt.match(/@?([^\s@]+)\s+проголосовал за\s*(?:\(([^)]*)\))?:?/i); const sk = mm && mm[2] ? (/сайт/i.test(mm[2]) ? 'web' : 'tg') : undefined; const u = mm ? mm[1] : 'Аноним'; const votes = {}; txt.split('\n').slice(1).forEach(l => { const q = l.match(/^\s*([^:]+):\s*(.+?)\s*$/); if(q) votes[q[1].trim()] = q[2].trim(); }); if(!Object.keys(votes).length) return; if(seen.has(u) && u !== 'Аноним') return; seen.add(u); out.push({ s: sk, id: 'tg' + (idv || out.length), userId: u, u, name: '', votes, ts }); };
+  if(msgs){ msgs.forEach(m => { if(m.type && m.type !== 'message') return; const txt = typeof m.text === 'string' ? m.text : (m.text || []).map(p => typeof p === 'string' ? p : p.text).join(''); const ts = m.date_unixtime ? +m.date_unixtime * 1000 : Date.parse(m.date) || Date.now(); push(txt, ts, m.id); }); }
+  else { text.split(/\n\s*\n/).forEach((b, i) => push(b.trim(), Date.now() - i * 60e3, i)); }
+  return out;
+}
+/* экспорт */
+function download(name, body, type){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([body], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }
+function exportCsv(){
+  const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  const head = ['Время МСК', 'Источник', 'ID', 'Ник', 'Имя', ...NOMS.map(n => n.title)].map(q).join(';');
+  const rows = [...STATE.votes].sort((a, b) => a.ts - b.ts).map(v => [msk(v.ts).full, SRCN[srcOf(v)], v.userId, v.u, v.name, ...NOMS.map(n => candName(n, v.votes?.[n.cands[0].row] ?? ''))].map(q).join(';'));
+  download('premia2027-votes.csv', '﻿' + [head, ...rows].join('\n'), 'text/csv;charset=utf-8');
+}
+/* ---------- события ---------- */
+$('#gGo').onclick = async () => {
+  const url = $('#gUrl').value.trim().replace(/\/+$/, ''), key = $('#gKey').value; if(!url){ $('#gErr').textContent = 'Укажи адрес сервера'; return; }
+  $('#gErr').textContent = ''; $('#gGo').textContent = 'Подключаюсь…'; ls.set('premia_admin', { url, key });
+  try{ const v = await loadLive(); enter('live', v); }catch(e){ $('#gErr').textContent = (e.message === 'Failed to fetch' ? 'Нет связи с сервером (проверь адрес и CORS)' : e.message); }
+  $('#gGo').textContent = 'Подключиться';
+};
+$('#gDemo').onclick = () => enter('demo', demoVotes());
+$('#gFile').onchange = async e => { const f = e.target.files[0]; if(!f) return; const v = importChat(await f.text()); if(!v.length){ $('#gErr').textContent = 'В файле не нашёл сообщений «проголосовал за»'; return; } enter('import', v); };
+$('#bOut').onclick = () => { clearTimeout(CONN.timer); STATE.mode = ''; const s0 = ls.get('premia_admin', {}); ls.set('premia_admin', { url: s0.url || '', key: '' }); $('#gKey').value = ''; $('#app').hidden = true; $('#gate').hidden = false; };
+$('#bRef').onclick = () => refresh(true);
+$('#swAuto').onclick = e => { e.currentTarget.classList.toggle('on'); schedule(); };
+$('#bCsv').onclick = exportCsv; $('#bJson').onclick = () => download('premia2027-votes.json', JSON.stringify(STATE.votes, null, 1), 'application/json');
+$('#segSrc').onclick = e => { const b = e.target.closest('button'); if(!b) return; SRC = b.dataset.s; $$('#segSrc button').forEach(x => x.classList.toggle('on', x === b)); page = 0; render(); };
+$('#segAct').onclick = e => { const b = e.target.closest('button'); if(!b) return; actMode = b.dataset.m; $$('#segAct button').forEach(x => x.classList.toggle('on', x === b)); drawAct(); };
+document.addEventListener('click', e => {
+  const go = e.target.closest('[data-go]'); if(go){ document.getElementById(go.dataset.go)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+  const r = e.target.closest('.row[data-nom], .chip[data-nom]'); if(r){ openCand(+r.dataset.nom, r.dataset.v); return; }
+  if(e.target.closest('.bk')) closeDr();
+});
+addEventListener('keydown', e => { if(e.key === 'Escape') closeDr(); });
+['fq', 'fn', 'fs'].forEach(id => $('#' + id).addEventListener('input', () => { page = 0; drawVoters(); }));
+$('#pgP').onclick = () => { page = Math.max(0, page - 1); drawVoters(); }; $('#pgN').onclick = () => { page++; drawVoters(); };
+/* подсветка пункта меню при прокрутке */
+addEventListener('scroll', () => { let cur = -1; $$('.nom').forEach((s, i) => { if(s.getBoundingClientRect().top < innerHeight * .4) cur = i; }); $$('#nav a[data-i]').forEach(a => a.classList.toggle('on', +a.dataset.i === cur)); }, { passive: true });
+/* старт: подставляем сохранённые настройки, ?demo — сразу демо */
+{ const s = ls.get('premia_admin', {}); $('#gUrl').value = s.url || 'https://premia-2027.kirilltop228gamer.workers.dev'; $('#gKey').value = s.key || ''; const q = new URLSearchParams(location.search); if(q.has('demo')) enter('demo', demoVotes()); else if(s.url && s.key) $('#gGo').click(); }
+</script>
+</body>
+</html>
