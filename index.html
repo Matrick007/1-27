@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Caveat:wght@500;700&family=Playfair+Display+SC:wght@700;900&family=Cormorant+SC:wght@500;600;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Caveat:wght@500;700&family=Playfair+Display+SC:wght@700;900&family=Cormorant+SC:wght@500;600;700&display=swap"></noscript>
-    <link rel="stylesheet" href="app.css?v=41">
+    <link rel="stylesheet" href="app.css?v=52">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
 </head>
 <body>
@@ -31,7 +31,6 @@
     <audio id="backgroundMusic" preload="none" loop></audio>
 
     <div class="container">
-        <button class="menu-button"></button>
         <div class="menu">
             <div class="menu-item" data-info="about">О приложении</div>
             <div class="menu-item" data-info="rules">Правила</div>
@@ -42,7 +41,7 @@
         </div>
 
         <div class="music-control" id="musicControl" style="display: none;">
-            <button class="music-control-button" id="musicControlButton"></button>
+            
             <div class="music-control-menu" id="musicControlMenu" style="display: none;">
                 <div class="track-option" data-track="sounds/1.mp3">Королева</div>
                 <!--<div class="track-option" data-track=""></div>-->
@@ -624,7 +623,7 @@
                     </div>
                     <div class="nominee" data-nominee="Галкин Виталий" data-row="Король Группы">
                         <div class="nominee-front">
-                            <img src="" alt="Галкин Виталий" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/Галкин.png" alt="Галкин Виталий" loading="lazy" decoding="async">
                             <h3>Галкин Виталий</h3>
                         </div>
                         <div class="nominee-back">
@@ -634,7 +633,7 @@
                     </div>
                     <div class="nominee" data-nominee="Голиков Матвей" data-row="Король Группы">
                         <div class="nominee-front">
-                            <img src="" alt="Голиков Матвей" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/Голиков.png" alt="Голиков Матвей" loading="lazy" decoding="async">
                             <h3>Голиков Матвей</h3>
                         </div>
                         <div class="nominee-back">
@@ -644,8 +643,18 @@
                     </div>
                     <div class="nominee" data-nominee="Иванова Маргарита" data-row="Король Группы">
                         <div class="nominee-front">
-                            <img src="" alt="Иванова Маргарита" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/" alt="Иванова Маргарита" loading="lazy" decoding="async">
                             <h3>Иванова Маргарита</h3>
+                        </div>
+                        <div class="nominee-back">
+                            <div class="nominee-description">Скоро</div>
+                            <button class="vote-action">Голосовать</button>
+                        </div>
+                    </div>
+                    <div class="nominee" data-nominee="Караев Эльчин" data-row="Король Группы">
+                        <div class="nominee-front">
+                            <img src="photo/КорольГруппы/Караев.png" alt="Караев Эльчин" loading="lazy" decoding="async">
+                            <h3>Караев Эльчин</h3>
                         </div>
                         <div class="nominee-back">
                             <div class="nominee-description">Скоро</div>
@@ -654,7 +663,7 @@
                     </div>
                     <div class="nominee" data-nominee="Куликов Виталий" data-row="Король Группы">
                         <div class="nominee-front">
-                            <img src="" alt="Куликов Виталий" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/Куликов.png" alt="Куликов Виталий" loading="lazy" decoding="async">
                             <h3>Куликов Виталий</h3>
                         </div>
                         <div class="nominee-back">
@@ -696,7 +705,7 @@
                     </div>
                     <div class="nominee" data-nominee="Самсонов Константин" data-row="Король Группы">
                         <div class="nominee-front">
-                            <img src="" alt="Самсонов Константин" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/Самсонов.png" alt="Самсонов Константин" loading="lazy" decoding="async">
                             <h3>Самсонов Константин</h3>
                         </div>
                         <div class="nominee-back">
@@ -706,7 +715,7 @@
                     </div>
                     <div class="nominee" data-nominee="Сенченко Дмитрий" data-row="Король Группы">
                         <div class="nominee-front">
-                            <img src="" alt="Сенченко Дмитрий" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/Сенченко .png" alt="Сенченко Дмитрий" loading="lazy" decoding="async">
                             <h3>Сенченко Дмитрий</h3>
                         </div>
                         <div class="nominee-back">
@@ -717,7 +726,7 @@
                     <div class="nominee" data-nominee="Сериков Александр" data-row="Король Группы">
                         <div class="winner-banner">Победитель в номинации "Мем года" 2024, 2025</div>
                         <div class="nominee-front">
-                            <img src="" alt="Сериков Александр" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/Сериков.png" alt="Сериков Александр" loading="lazy" decoding="async">
                             <h3>Сериков Александр</h3>
                         </div>
                         <div class="nominee-back">
@@ -727,7 +736,7 @@
                     </div>
                     <div class="nominee" data-nominee="Сидоров Никита" data-row="Король Группы">
                         <div class="nominee-front">
-                            <img src="" alt="Сидоров Никита" loading="lazy" decoding="async">
+                            <img src="photo/КорольГруппы/Сидоров.png" alt="Сидоров Никита" loading="lazy" decoding="async">
                             <h3>Сидоров Никита</h3>
                         </div>
                         <div class="nominee-back">
@@ -798,9 +807,7 @@
       </div>
     </section>
 
-    <script src="cars-data.js?v=41" defer></script><script src="script.js?v=41" defer></script>
+    <script src="songs.js"></script>
+    <script src="script.js?v=52" defer></script>
 </body>
 </html>
-
-
-
