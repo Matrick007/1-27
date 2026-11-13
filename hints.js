@@ -7,8 +7,11 @@ function lsSet(k,v){try{LS.setItem(k,v)}catch(e){}}
 // старые 3 шага «coach» заменены новой системой
 lsSet('premia2027_coach_v2','1');
 
-var seen={};try{seen=JSON.parse(lsGet(SEEN_KEY)||'{}')||{}}catch(e){}
-function mark(id){seen[id]=1;lsSet(SEEN_KEY,JSON.stringify(seen))}
+/* РЕЖИМ РАЗРАБОТКИ: подсказки показываются при каждой загрузке страницы.
+   Когда разработка закончится — поставь PERSIST=true, и каждая подсказка будет показываться один раз. */
+var PERSIST=false;
+var seen={};if(PERSIST){try{seen=JSON.parse(lsGet(SEEN_KEY)||'{}')||{}}catch(e){}}
+function mark(id){seen[id]=1;if(PERSIST)lsSet(SEEN_KEY,JSON.stringify(seen))}
 
 var isPC=window.matchMedia&&window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 var $=function(s,r){return(r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
