@@ -40,7 +40,7 @@ add({id:'hero',
  text:function(){return isPC?'Жми <b>«Начать голосование»</b> — кнопка прямо тут.':'Привет! <b>Листай вниз</b> <span class="hn-arr">↓</span> — там кнопка начала голосования.'},
  ctx:function(){return $('#tab1.active')&&!document.body.classList.contains('modal-open')},
  when:function(){return $('#tab1.active')},
- target:function(){return isPC?$('#nextButton'):null},
+ target:function(){return isPC?($('.lx-cta2')||$('#nextButton')):null},
  done:function(){var b=$('#nextButton');if(!b)return false;var r=b.getBoundingClientRect();return !isPC&&r.top<innerHeight*.8&&r.bottom>0},
  delay:700});
 /* 2. листание кандидатов */
@@ -112,7 +112,7 @@ add({id:'joust',
  text:function(){return'Не знаешь, за кого голосовать? Сыграй в <b>турнир на копьях</b> — выберешь сильнейшего.'},
  ctx:function(){var f=curFrame();return f&&f.dataset.trophy&&!busy()},
  when:function(){var f=curFrame();return f&&f.dataset.trophy&&!busy()&&$('.kq-joust',f)},
- target:function(){return $('.nomination-frame.current .kq-joust')},
+ target:function(){return $('.nomination-frame.current .kq-joust b')||$('.nomination-frame.current .kq-joust')},
  done:function(){return !!$('.js-box')},
  delay:1200});
 
@@ -120,32 +120,38 @@ var paintDone=false;
 document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.cf-row[data-k="paint"] [data-v]'))setTimeout(function(){paintDone=true},50)},true);
 
 /* ---------- отрисовка ---------- */
-var root,box,chEl,nameEl,textEl,dots,okBtn,ring,ptr,cur=null,typeT=0,startT=0;
+var PTR_SVG='<svg viewBox="0 0 24 24"><path d="M12 21 3 9h6V3h6v6h6z" fill="#e6c98a" stroke="#17130a" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+var numEl,root,box,chEl,nameEl,textEl,dots,okBtn,ring,ptr,cur=null,typeT=0,startT=0;
 function build(){
  root=document.createElement('div');root.className='hn';root.setAttribute('role','status');root.setAttribute('aria-live','polite');
- root.innerHTML='<div class="hn-box"><div class="hn-ch"><img alt="" draggable="false"></div><div class="hn-name"></div><div class="hn-text"></div><div class="hn-row"><span class="hn-dots"></span><button type="button" class="hn-ok">Понял</button></div></div>';
+ root.innerHTML='<div class="hn-box"><div class="hn-ch"><img alt="" draggable="false"></div><div class="hn-meta"><span class="hn-name"></span><i></i><span class="hn-num"></span></div><div class="hn-text"></div><div class="hn-row"><span class="hn-dots"></span><button type="button" class="hn-ok">Понял</button></div></div>';
  document.body.appendChild(root);
- chEl=$('.hn-ch',root);nameEl=$('.hn-name',root);textEl=$('.hn-text',root);dots=$('.hn-dots',root);okBtn=$('.hn-ok',root);
+ chEl=$('.hn-ch',root);nameEl=$('.hn-name',root);numEl=$('.hn-num',root);textEl=$('.hn-text',root);dots=$('.hn-dots',root);okBtn=$('.hn-ok',root);
  okBtn.addEventListener('click',function(){hide(true)});
  ring=document.createElement('div');ring.className='hn-ring';ring.style.display='none';document.body.appendChild(ring);
- ptr=document.createElement('div');ptr.className='hn-ptr';ptr.textContent='👇';ptr.style.display='none';document.body.appendChild(ptr);
+ ptr=document.createElement('div');ptr.className='hn-ptr';ptr.innerHTML=PTR_SVG;ptr.style.display='none';document.body.appendChild(ptr);
 }
 function place(){
  if(!cur||!cur.target){ring&&(ring.style.display='none');ptr&&(ptr.style.display='none');return}
  var t=cur.target();if(!t||!visible(t)){ring.style.display='none';ptr.style.display='none';return}
  var r=t.getBoundingClientRect(),vh=innerHeight,pad=4;
+ // окно закрывает цель — переносим его на противоположную сторону экрана (один раз)
+ if(!cur.flipTried&&root.classList.contains('on')){
+  var br=$('.hn-box',root).getBoundingClientRect();
+  if(r.bottom>br.top&&r.top<br.bottom&&r.right>br.left&&r.left<br.right&&r.bottom>0&&r.top<vh){cur.flipTried=1;root.classList.toggle('flip')}
+ }
  var out=r.bottom<0||r.top>vh;
- if(out){ring.style.display='none';ptr.style.display='block';ptr.textContent=r.top>vh?'👇':'👆';ptr.style.left=Math.max(12,Math.min(innerWidth-44,r.left+r.width/2-17))+'px';ptr.style.top=(r.top>vh?vh-150:12)+'px';return}
+ if(out){ring.style.display='none';ptr.style.display='block';ptr.classList.toggle('up',r.top<=vh);ptr.style.left=Math.max(12,Math.min(innerWidth-44,r.left+r.width/2-17))+'px';ptr.style.top=(r.top>vh?vh-150:12)+'px';return}
  ring.style.display='block';
  ring.style.left=(r.left-pad)+'px';ring.style.top=(r.top-pad)+'px';ring.style.width=(r.width+pad*2)+'px';ring.style.height=(r.height+pad*2)+'px';
- if(isPC){ptr.style.display='block';ptr.textContent=r.top>90?'👇':'👆';ptr.style.left=(r.left+r.width/2-17)+'px';ptr.style.top=(r.top>90?r.top-46:r.bottom+6)+'px'}else ptr.style.display='none';
+ if(isPC){ptr.style.display='block';ptr.classList.toggle('up',!(r.top>90));ptr.style.left=(r.left+r.width/2-17)+'px';ptr.style.top=(r.top>90?r.top-46:r.bottom+6)+'px'}else ptr.style.display='none';
 }
 function show(h){
  if(!root)build();
- cur=h;h.t0=Date.now();
+ cur=h;h.t0=Date.now();h.flipTried=0;root.classList.remove('flip');
  chEl.className='hn-ch'+(h.ch.sq?' sq':'');$('img',chEl).src=h.ch.img;
- nameEl.textContent=h.ch.n;
- dots.innerHTML=H.map(function(x,i){return'<i class="'+(i===h.i?'on':'')+'"></i>'}).join('');
+ nameEl.textContent=h.ch.n;numEl.textContent='Подсказка '+('0'+(h.i+1)).slice(-2)+' / '+H.length;
+ dots.innerHTML=H.map(function(x,i){return'<i class="'+(i===h.i?'on':i<h.i?'d':'')+'"></i>'}).join('');
  var full=h.text();textEl.innerHTML='';clearInterval(typeT);
  var tmp=document.createElement('div');tmp.innerHTML=full;
  var total=tmp.textContent.length,printed=0;
@@ -174,13 +180,13 @@ function revealTarget(h){
  if(cur!==h||!h.target)return;
  var t=h.target();if(!t||!visible(t))return;
  var r=t.getBoundingClientRect(),bh=$('.hn-box',root).offsetHeight+24,vh=innerHeight;
- var hidden=r.bottom>vh-bh||r.top<0;
+ var hidden=r.bottom>vh-bh||r.top<0;h.scrollTo=h.scrollTo||(h.id==='joust');
  if(h.id==='hero'&&isPC)return; // на ПК просто показываем стрелкой
  if(hidden||h.scrollTo){
   var y=(vh-bh)/2-r.height/2; // центр свободной области над окном
   var host=t.closest('.hm-scroll')||null;
   if(host){var hr=host.getBoundingClientRect();host.scrollBy({top:r.top-hr.top-Math.max(60,(vh-bh-hr.top)/2-r.height/2),behavior:'smooth'})}
-  else window.scrollBy({top:r.top-Math.max(70,y),behavior:'smooth'});
+  else t.scrollIntoView({block:'center',behavior:'smooth'});
  }
 }
 function hide(user){
