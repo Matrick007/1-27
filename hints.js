@@ -22,7 +22,7 @@ var CH=[
  {n:'Лукин',img:'photo/Подсказки/l1.webp'},
  {n:'Лукин',img:'photo/Подсказки/l2.webp'},
  {n:'Кирилл',img:'photo/Подсказки/k2.webp'},
- {n:'Тигр',img:'photo/Подсказки/t1.webp',sq:true}
+ {n:'Тигр',img:'photo/Подсказки/t1.webp'}
 ];
 CH.forEach(function(c){var i=new Image();i.src=c.img});
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Голосование 2027</title>
-    <link rel="preload" href="fonts/lx-d800.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="fonts/lx-d600.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="fonts/lx-t400.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="fonts/lx-t500.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="img/group.webp" as="image" fetchpriority="high"><link rel="preload" href="fonts/lx-d800.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="fonts/lx-d600.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="fonts/lx-t400.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="fonts/lx-t500.woff" as="font" type="font/woff" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Caveat:wght@500;700&family=Playfair+Display+SC:wght@700;900&family=Cormorant+SC:wght@500;600;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Caveat:wght@500;700&family=Playfair+Display+SC:wght@700;900&family=Cormorant+SC:wght@500;600;700&display=swap"></noscript>
@@ -816,7 +816,14 @@ input,textarea,select{font-size:max(16px,1em)}
     </section>
 
     <script src="songs.js"></script>
-    <script src="hints.js?v=6"></script>
+    <script>
+/* кэш + фоновая подгрузка тяжёлого, чтобы всё открывалось мгновенно */
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+addEventListener('load',function(){var idle=window.requestIdleCallback||function(f){return setTimeout(f,1500)};idle(function(){
+['videos/intro.mp4','videos/outro.mp4','img/wood.webp','img/paper.webp','img/cork.webp','img/fog.webp','img/lg_evolute.webp','img/lg_gotek.webp','img/lg_moloko.webp','cars/frolov.webp','cars/galkin.webp','cars/kulikov.webp','cars/samsonov.webp','cars/senchenko.webp','cars/serikov.webp','audio/loader.mp3'].forEach(function(u,i){setTimeout(function(){try{fetch(u,{priority:'low'}).catch(function(){})}catch(e){}},i*250)})
+},{timeout:4000})});
+</script>
+<script src="hints.js?v=7"></script>
     <script src="script.js?v=52" defer></script>
 <script>
 /* mobile lock: no zoom, no double-tap zoom, no rubber band */
