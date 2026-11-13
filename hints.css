@@ -1,0 +1,26 @@
+/* ===== Подсказки с персонажами ===== */
+.hn{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;pointer-events:none;display:flex;justify-content:center;padding:0 12px calc(12px + env(safe-area-inset-bottom,0px));transform:translateY(130%);opacity:0;transition:transform .5s cubic-bezier(.2,1.2,.3,1),opacity .3s}
+.hn.on{transform:none;opacity:1}
+.hn-box{position:relative;pointer-events:auto;width:min(100%,560px);margin-left:0;padding:14px 14px 12px 118px;min-height:92px;border-radius:16px;background:linear-gradient(180deg,rgba(58,56,62,.97),rgba(34,33,38,.97));border:2px solid #d9a441;box-shadow:0 10px 34px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.06);color:#f4efe4;font-family:'Manrope',system-ui,sans-serif}
+.hn-ch{position:absolute;left:4px;bottom:-2px;width:112px;height:152px;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;animation:hnBob 3.2s ease-in-out infinite}
+.hn-ch img{max-width:100%;max-height:100%;object-fit:contain;display:block;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5));-webkit-user-drag:none;user-select:none}
+.hn-ch.sq{height:104px;width:92px;margin-bottom:12px;left:10px;bottom:0}
+.hn-ch.sq img{width:100%;height:100%;object-fit:cover;border-radius:14px;border:2px solid #d9a441}
+@keyframes hnBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.hn-tail{position:absolute;left:84px;top:-12px;width:18px;height:18px;background:#3a383e;border-left:2px solid #d9a441;border-top:2px solid #d9a441;transform:rotate(45deg);display:none}
+.hn-name{font:700 11px/1 'Oswald','Manrope',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#d9a441;margin-bottom:6px}
+.hn-text{font-size:14.5px;line-height:1.38;font-weight:600;min-height:2.76em}
+.hn-text b{color:#ffd37a;font-weight:800}
+.hn-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}
+.hn-dots{display:flex;gap:4px}.hn-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.22)}.hn-dots i.on{background:#d9a441}
+.hn-ok{appearance:none;border:0;border-radius:999px;padding:7px 16px;background:#d9a441;color:#201808;font:800 12.5px/1 'Manrope',system-ui,sans-serif;cursor:pointer;touch-action:manipulation}
+.hn-ok:active{transform:scale(.96)}
+.hn-arr{display:inline-block;animation:hnArr 1s ease-in-out infinite}
+@keyframes hnArr{0%,100%{transform:translateY(-2px)}50%{transform:translateY(4px)}}
+/* кольцо/стрелка на цели */
+.hn-ring{position:fixed;z-index:2147482990;pointer-events:none;border-radius:14px;border:3px solid #ffd37a;box-shadow:0 0 0 4px rgba(217,164,65,.25),0 0 24px rgba(255,211,122,.55);animation:hnPulse 1.3s ease-out infinite;transition:opacity .2s}
+@keyframes hnPulse{0%{box-shadow:0 0 0 0 rgba(255,211,122,.7),0 0 18px rgba(255,211,122,.5)}100%{box-shadow:0 0 0 16px rgba(255,211,122,0),0 0 18px rgba(255,211,122,.1)}}
+.hn-ptr{position:fixed;z-index:2147482991;pointer-events:none;font-size:34px;line-height:1;color:#ffd37a;text-shadow:0 2px 8px rgba(0,0,0,.7);animation:hnPtr .9s ease-in-out infinite}
+@keyframes hnPtr{0%,100%{margin-top:0}50%{margin-top:10px}}
+@media (min-width:700px){.hn{justify-content:flex-start;padding-left:24px}}
+@media (prefers-reduced-motion:reduce){.hn,.hn-ch,.hn-ring,.hn-ptr,.hn-arr{animation:none;transition:none}}
